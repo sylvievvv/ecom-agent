@@ -6,7 +6,7 @@
 
 ![A mission running: the Navigator plans, Promoter and Herald work in parallel, Guardian reviews](media/mission.gif)
 
-**Video walkthrough (54 s):** [media/demo.mp4](media/demo.mp4)
+**Videos:** [30-second explainer](media/explainer.mp4) · [54-second app walkthrough](media/demo.mp4)
 
 > Outside Claude the app runs in **demo mode** with example output for a fictional brand; inside Claude it runs live.
 
