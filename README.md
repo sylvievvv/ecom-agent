@@ -8,13 +8,13 @@
 
 **Video walkthrough (54 s):** [media/demo.mp4](media/demo.mp4)
 
-> The interface is in Dutch. Outside Claude the app runs in **demo mode** with example output for a fictional brand; inside Claude it runs live.
+> Outside Claude the app runs in **demo mode** with example output for a fictional brand; inside Claude it runs live.
 
 ![Dashboard](screenshots/dashboard.webp)
 
 ## How it works
 
-1. **Pick a goal**: "Ik wil meer verkopen met mijn nieuwe serum" (I want to sell more of my new serum).
+1. **Pick a goal**: "I want to sell more of my new serum".
 2. **Navigator plans the mission**: chooses the agents, the order, and which of them can work at the same time.
 3. **Agents do the work**: each one builds on the output of the steps before it.
 4. **Guardian reviews**: added automatically before anything that will be published or sent.

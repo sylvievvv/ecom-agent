@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
-/* Layout: soft lavender app shell; left sidebar nav; main area switches views (Dashboard, Agents, Resultaten, Brand Memory, Activiteit, Hoe werkt het);
+/* Layout: soft lavender app shell; left sidebar nav; main area switches views (Dashboard, Agents, Results, Brand Memory, Activity, How it works);
    agent detail opens as a right-hand drawer. Committed single light look: pastel tints per agent, plush 3D icons carry the personality. */
 :root{
   --bg:#f2f0fb; --bg-2:#e9e5fa; --panel:rgba(255,255,255,.72); --solid:#ffffff; --line:#e6e1f6; --line-2:#d9d2f1;
@@ -119,7 +119,7 @@ img{max-width:100%}
 .fs.working{border-color:#c9b8fb;box-shadow:0 0 0 4px var(--accent-soft)}
 .fs.waiting{opacity:.7}
 .grp{display:flex;gap:8px;border:1.5px dashed #cfc4f7;border-radius:22px;padding:6px;align-items:stretch;position:relative}
-.grp::before{content:"tegelijk";position:absolute;top:-10px;left:14px;background:var(--bg);padding:0 6px;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;border-radius:6px}
+.grp::before{content:"in parallel";position:absolute;top:-10px;left:14px;background:var(--bg);padding:0 6px;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;border-radius:6px}
 .arrow{align-self:center;color:#b6acd9}
 .next{display:flex;gap:10px;align-items:center;background:var(--accent-soft);border-radius:16px;padding:10px 14px;font-size:14px;color:#3d2a8a}
 .next b{font-weight:700}
@@ -246,7 +246,7 @@ form.brand input:focus,form.brand textarea:focus{outline:none;border-color:#c9b8
 </head>
 <body>
 <div class="app">
-  <aside class="sb" aria-label="Hoofdmenu">
+  <aside class="sb" aria-label="Main menu">
     <div class="logo">
       <svg width="42" height="42" viewBox="0 0 42 42" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a5cf7"/><stop offset="1" stop-color="#5b2ee6"/></linearGradient></defs><circle cx="12" cy="12" r="9" fill="url(#lg)"/><circle cx="30" cy="12" r="9" fill="url(#lg)" opacity=".85"/><circle cx="12" cy="30" r="9" fill="url(#lg)" opacity=".85"/><rect x="21" y="21" width="18" height="18" rx="9" fill="url(#lg)"/></svg>
       <div><b>Ecom</b><span>Agent Garden</span></div>
@@ -255,28 +255,28 @@ form.brand input:focus,form.brand textarea:focus{outline:none;border-color:#c9b8
       <button type="button" data-view="dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Dashboard</button>
       <button type="button" data-view="agents"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="7" cy="7" r="4"/><circle cx="17" cy="7" r="4"/><circle cx="7" cy="17" r="4"/><circle cx="17" cy="17" r="4"/></svg>Agents</button>
       <button type="button" data-view="brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Brand Memory</button>
-      <button type="button" data-view="how"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h6a2 2 0 0 1 2 2V20a1.6 1.6 0 0 0-1.6-1.6H4zM20 5.5h-6a2 2 0 0 0-2 2V20a1.6 1.6 0 0 1 1.6-1.6H20z"/></svg>Hoe werkt het?</button>
-      <button type="button" data-view="results"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V12M10 20V6M15 20v-5M20 20V9"/></svg>Resultaten<span class="cnt" id="resCount" hidden></span></button>
-      <button type="button" data-view="activity"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Activiteit</button>
+      <button type="button" data-view="how"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h6a2 2 0 0 1 2 2V20a1.6 1.6 0 0 0-1.6-1.6H4zM20 5.5h-6a2 2 0 0 0-2 2V20a1.6 1.6 0 0 1 1.6-1.6H20z"/></svg>How it works</button>
+      <button type="button" data-view="results"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V12M10 20V6M15 20v-5M20 20V9"/></svg>Results<span class="cnt" id="resCount" hidden></span></button>
+      <button type="button" data-view="activity"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Activity</button>
     </nav>
     <div class="sb-card">
-      <div style="display:flex;gap:10px;align-items:center"><span class="dot" id="sysDot"></span><b id="sysTitle">Agents verbinden…</b></div>
-      <p id="sysText">Even geduld.</p>
+      <div style="display:flex;gap:10px;align-items:center"><span class="dot" id="sysDot"></span><b id="sysTitle">Connecting agents…</b></div>
+      <p id="sysText">One moment.</p>
     </div>
   </aside>
 
   <main class="main">
     <header class="top">
       <div><h1 id="pageTitle">Dashboard</h1><p id="pageSub"></p></div>
-      <label class="search" for="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M16 16l5 5"/></svg><input id="search" type="search" placeholder="Zoek een agent…" autocomplete="off"></label>
+      <label class="search" for="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M16 16l5 5"/></svg><input id="search" type="search" placeholder="Search an agent…" autocomplete="off"></label>
     </header>
 
     <!-- DASHBOARD -->
     <section data-v="dashboard" class="vw">
       <div style="display:grid;gap:22px">
         <section class="panel cmd">
-          <label for="taskInput">Wat wil je bereiken?</label>
-          <form id="askForm"><input id="taskInput" autocomplete="off" placeholder="Ik wil meer verkopen met mijn supplement"><button class="btn-primary" type="submit" id="runBtn">Start met Navigator <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+          <label for="taskInput">What do you want to achieve?</label>
+          <form id="askForm"><input id="taskInput" autocomplete="off" placeholder="I want to sell more of my supplement"><button class="btn-primary" type="submit" id="runBtn">Start with Navigator <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
           <div class="qa" id="quick"></div>
         </section>
 
@@ -285,19 +285,19 @@ form.brand input:focus,form.brand textarea:focus{outline:none;border-color:#c9b8
           <div class="mission"><div class="bar"><i id="misBar" style="width:0%"></i></div><div class="lbls"><span id="misSteps"></span><b id="misPct"></b></div></div>
           <div class="flow" id="flow"></div>
           <div class="next" id="nextStep" hidden></div>
-          <div class="live" id="live" hidden><div class="live-h"><span id="liveWho"></span><button type="button" class="btn" id="liveOpen" style="padding:5px 12px;font-size:13px">Alle resultaten</button></div><div class="live-b" id="liveBody"></div></div>
+          <div class="live" id="live" hidden><div class="live-h"><span id="liveWho"></span><button type="button" class="btn" id="liveOpen" style="padding:5px 12px;font-size:13px">All results</button></div><div class="live-b" id="liveBody"></div></div>
         </section>
 
 
         <section style="display:grid;gap:14px">
-          <div class="sec-h"><div><h2>Onze AI Agents</h2><p>9 gespecialiseerde agents die samen jouw e-commerce groei versnellen.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn" data-go="agents">Bekijk alle agents</button><button type="button" class="btn-primary" id="goNav">Start met Navigator <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
+          <div class="sec-h"><div><h2>Our AI Agents</h2><p>9 specialised agents that work together to accelerate your e-commerce growth.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn" data-go="agents">View all agents</button><button type="button" class="btn-primary" id="goNav">Start with Navigator <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
           <div class="agrid" id="dashAgents"></div>
         </section>
       </div>
     </section>
 
     <!-- AGENTS -->
-    <section data-v="agents" class="vw" hidden><div class="bgrid" id="bigAgents"></div><p class="empty" id="noMatch" hidden>Geen agent gevonden. Probeer een ander woord.</p></section>
+    <section data-v="agents" class="vw" hidden><div class="bgrid" id="bigAgents"></div><p class="empty" id="noMatch" hidden>No agent found. Try another word.</p></section>
 
     <!-- RESULTS -->
     <section data-v="results" class="vw panel" hidden><div class="list" id="taskList"></div></section>
@@ -313,10 +313,10 @@ form.brand input:focus,form.brand textarea:focus{outline:none;border-color:#c9b8
       <div class="panel"><div class="how" id="howStrip2"></div></div>
       <div class="panel"><div class="map" id="mentalMap"></div></div>
       <div class="two">
-        <section class="panel try"><h3>Probeer het zelf</h3><p class="empty">De snelste manier om het te leren: geef een doel en kijk hoe het team samenwerkt.</p>
-          <form id="tryForm"><input id="tryInput" autocomplete="off" value="Maak een campagne voor mijn product" aria-label="Je doel"><button type="submit" class="btn-primary">Start workflow <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+        <section class="panel try"><h3>Try it yourself</h3><p class="empty">The fastest way to learn it: give a goal and watch the team work together.</p>
+          <form id="tryForm"><input id="tryInput" autocomplete="off" value="Create a campaign for my product" aria-label="Your goal"><button type="submit" class="btn-primary">Start workflow <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
           <div class="qa" id="tryQuick"></div></section>
-        <section class="panel check"><h3>Je eerste missie</h3><div id="checklist"></div></section>
+        <section class="panel check"><h3>Your first mission</h3><div id="checklist"></div></section>
       </div>
     </div></section>
   </main>
@@ -327,7 +327,7 @@ form.brand input:focus,form.brand textarea:focus{outline:none;border-color:#c9b8
 <div class="toast" id="toast" hidden role="status">
   <div class="tt"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1d9a62"/><path d="M6.5 11.3l3 3 6-6.3" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="toastTitle"></span></div>
   <div class="q" id="toastQuip"></div>
-  <div class="ta"><button type="button" class="btn-primary" id="toastView">Bekijk resultaten</button><button type="button" class="btn" id="toastClose">Sluiten</button></div>
+  <div class="ta"><button type="button" class="btn-primary" id="toastView">View results</button><button type="button" class="btn" id="toastClose">Close</button></div>
 </div>
 
 <script>
@@ -335,268 +335,268 @@ const ICON = {"herald": "assets/icons/herald.webp", "navigator": "assets/icons/n
 const ico = (id, size, alt='') => `<img src="${ICON[id]}" width="${size}" height="${size}" alt="${alt}" loading="lazy" decoding="async">`;
 
 /* ================= Agents ================= */
-const RULES = `You are part of an AI team for an e-commerce brand. Answer in the language of the task (default Dutch).
+const RULES = `You are part of an AI team for an e-commerce brand. Answer in the language of the task (default English).
 Rules:
 1. Never invent data, figures, reviews, results, names, email addresses or quotes. If something is missing, write [CHECK: ...].
-2. Only make product claims that are in the brand brief. No "cures", "guaranteed results", "100% free of chemicals", miracle or before/after promises.
+2. Only make product claims that are in the brand brief. No "cures", "guaranteed results", "100% chemical-free", miracle or before/after promises.
 3. Respect EU consumer law (no misleading claims, honest discounts), and platform ad policies.
 4. You cannot browse the web. Say so where it matters and give concrete search steps or sources to verify instead.
 5. You deliver drafts; a human publishes and sends.
-6. End with one short line "Open vragen:" (max 3).
+6. End with one short line "Open questions:" (max 3).
 Formatting: short headings in **bold**, bullet lists with "- ". Be concise and practical.`;
 
 const AG = [
- {id:'navigator', name:'Navigator', role:'Regie & planning', c:'#c26a00', tint:'#fff3df', btn:'#ffe8c2',
-  does:'Plant welke agents aan je opdracht werken en in welke volgorde, en maakt een complete workflow.',
-  about:'De centrale agent. Je geeft een doel, de Navigator stelt het team samen, zet de stappen in de juiste volgorde en laat agents tegelijk werken waar dat kan.',
-  gives:['Een route langs maximaal 7 stappen','Een korte opdracht per agent','Promoter en Herald tegelijk waar dat kan'],
-  ex:['Ik wil meer verkopen met mijn nieuwe huidverzorgingslijn','Lanceer onze nieuwe productbundel']},
- {id:'scout', name:'Scout', role:'Prospects & doelgroepen', c:'#c42d8f', tint:'#fde8f5', btn:'#fbd6ee',
-  does:'Bedenkt waar en hoe je de juiste klanten, winkels en creators vindt, en levert een concreet zoekplan.',
-  about:'Zoekt uit wie je moet bereiken: klantsegmenten, webshops en winkels die je product kunnen verkopen, creators en de beslissers daarachter. Kan niet live zoeken, dus levert een zoekplan dat je zelf uitvoert.',
-  gives:['Klantsegmenten en koopmotieven','Profiel van ideale retailers, groothandels of creators','8 tot 12 concrete zoekopdrachten en bronnen','Functietitels van beslissers'],
-  ex:['Vind conceptstores en webshops die ons product kunnen verkopen','Welke creators passen bij ons merk?'],
-  quip:'Scout kijkt verdacht trots.',
+ {id:'navigator', name:'Navigator', role:'Orchestration', c:'#c26a00', tint:'#fff3df', btn:'#ffe8c2',
+  does:'Plans which agents work on your goal and in what order, and builds a complete workflow.',
+  about:'The central agent. You give a goal, the Navigator assembles the team, puts the steps in the right order and lets agents work in parallel where possible.',
+  gives:['A route of up to 7 steps','A short brief for each agent','Promoter and Herald in parallel where possible'],
+  ex:['I want to sell more of my new skincare line','Launch our new product bundle']},
+ {id:'scout', name:'Scout', role:'Prospects & audiences', c:'#c42d8f', tint:'#fde8f5', btn:'#fbd6ee',
+  does:'Works out where and how to find the right customers, stores and creators, and delivers a concrete search plan.',
+  about:'Figures out who you should reach: customer segments, online and physical stores that could stock your product, creators and the decision-makers behind them. It cannot browse live, so it delivers a search plan you run yourself.',
+  gives:['Customer segments and buying motives','Profile of ideal retailers, wholesalers or creators','8 to 12 concrete searches and sources','Decision-maker job titles'],
+  ex:['Find concept stores and webshops that could stock our product','Which creators fit our brand?'],
+  quip:'Scout looks suspiciously proud of himself.',
   brief:`ROLE: prospect and audience researcher for an e-commerce brand. TASK: work out who to reach. For B2C: 3-4 customer segments with buying motives, objections and where they hang out. For B2B (retailers, wholesale, marketplaces, creators/affiliates): ideal partner profile, 8-12 concrete searches and sources (Google search strings, Instagram/TikTok hashtags, marketplace filters, wholesale platforms, trade fairs, store directories), signals that a partner is a good fit, and decision-maker job titles. Only name real companies or people if you are sure they exist, always marked [CHECK]. Never guess email addresses.`},
- {id:'researcher', name:'Researcher', role:'Markt & concurrentie', c:'#5b3fe0', tint:'#eee9ff', btn:'#e0d8ff',
-  does:'Vertaalt markt- en klantdata naar heldere boodschappen per doelgroep, en zegt wat je niet mag claimen.',
-  about:'Zet je product, de markt en de concurrentie op een rij en vertaalt dat naar sterke boodschappen. Bewaakt welke claims je wel en niet kunt maken.',
-  gives:['Kernboodschap en USP’s per doelgroep','Bezwaren van klanten en hoe je ze weerlegt','Concurrentiepatronen en kansen','Welke claims wel en niet kunnen'],
-  ex:['Waarom zouden klanten ons kiezen boven de concurrent?','Welke bezwaren hebben kopers van natuurlijke huidverzorging?'],
-  quip:'Researcher heeft drie voetnoten toegevoegd waar niemand om vroeg.',
+ {id:'researcher', name:'Researcher', role:'Market & competition', c:'#5b3fe0', tint:'#eee9ff', btn:'#e0d8ff',
+  does:'Turns market and customer insight into clear messages per audience, and tells you which claims you cannot make.',
+  about:'Maps your product, the market and the competition, and turns that into strong messaging. Guards which claims you can and cannot make.',
+  gives:['Core message and USPs per audience','Customer objections and how to answer them','Competitor patterns and opportunities','Which claims are safe and which are not'],
+  ex:['Why would customers choose us over the competition?','What objections do buyers of natural skincare have?'],
+  quip:'Researcher added three footnotes nobody asked for.',
   brief:`ROLE: market and product researcher for an e-commerce brand. TASK: deliver usable insight. Include: core message in one sentence per audience; top 3 USPs with the proof needed; customer objections and how to answer them; competitor patterns (general knowledge only, or competitors named by the user; mark specifics [CHECK]); pricing and positioning notes; which claims are safe and which are not; 5 messaging angles with an example line.`},
- {id:'messenger', name:'Messenger', role:'E-mail & outreach', c:'#0b8aa6', tint:'#e1f6fa', btn:'#cbeff6',
-  does:'Schrijft korte, persoonlijke e-mailreeksen en follow-ups die echt resultaat opleveren.',
-  about:'Schrijft e-mails die gelezen worden: B2B-outreach naar winkels en creators, en e-mailflows voor klanten zoals welkom, verlaten winkelwagen en na aankoop.',
-  gives:['Outreach-reeks van 3 tot 4 mails','Klantflows: welkom, winkelwagen, na aankoop','3 onderwerpregels per mail','AVG-proof, met afmeldregel'],
-  ex:['Mail aan conceptstores om ons merk in te kopen','Flow voor verlaten winkelwagens'],
-  quip:'Messenger heeft de neiging om een emoji toe te voegen weerstaan.',
-  brief:`ROLE: e-commerce email copywriter. TASK: write the email(s) asked. B2B outreach default: 4-step sequence (day 0 opener with a specific hook, day 3 value, day 7 new angle or social proof from the brief, day 14 short break-up), max 100 words each. B2C flows: welcome, abandoned cart or post-purchase, each email with goal, timing, subject line, preview text and body. Always 3 subject lines per email (max 7 words), placeholders like [voornaam], one clear CTA, unsubscribe line. No fake urgency, no invented reviews.`},
- {id:'herald', name:'Herald', role:'Social content', c:'#d65a0a', tint:'#fff0e3', btn:'#ffe0c6',
-  does:'Maakt posts voor Instagram, TikTok, LinkedIn en X, scripts voor Reels, carrousels en een contentkalender.',
-  about:'Maakt organische content voor Instagram, TikTok, LinkedIn en X: scroll-stoppende hooks, productdemo’s, UGC-stijl video’s en carrousels.',
-  gives:['Reel- en TikTok-scripts met hook en shotlist','Carrousels, slide voor slide','Captions en hashtags per kanaal','Contentkalender per kanaal'],
-  ex:['3 TikTok-scripts voor onze bestseller','Instagram-carrousel: zo gebruik je ons product'],
-  quip:'Herald denkt alweer na over hashtags.',
-  brief:`ROLE: social media strategist and creator for an e-commerce brand. TASK: create organic content for the channels asked (default Instagram and TikTok). TikTok/Reels: 15-40 second script with a hook in the first 2 seconds, shot list, on-screen text, spoken lines, caption, 3-5 hashtags, sound idea. Instagram carousel: text per slide (max 8 slides) plus caption. LinkedIn/X if asked. Mix formats: product demo, UGC-style review (no fake testimonials: write it as a brief for a real customer or creator), behind the scenes, how-to, offer. For a calendar: date, channel, format, topic, goal. Influencer content must be marked as advertising (#ad / #samenwerking).`},
+ {id:'messenger', name:'Messenger', role:'Email & outreach', c:'#0b8aa6', tint:'#e1f6fa', btn:'#cbeff6',
+  does:'Writes short, personal email sequences and follow-ups that actually get results.',
+  about:'Writes emails people actually read: B2B outreach to stores and creators, and customer flows such as welcome, abandoned cart and post-purchase.',
+  gives:['Outreach sequence of 3 to 4 emails','Customer flows: welcome, cart, post-purchase','3 subject lines per email','GDPR-proof, with an unsubscribe line'],
+  ex:['Email to concept stores asking them to stock our brand','Abandoned-cart flow'],
+  quip:'Messenger resisted the urge to add an emoji.',
+  brief:`ROLE: e-commerce email copywriter. TASK: write the email(s) asked. B2B outreach default: 4-step sequence (day 0 opener with a specific hook, day 3 value, day 7 new angle or social proof from the brief, day 14 short break-up), max 100 words each. B2C flows: welcome, abandoned cart or post-purchase, each email with goal, timing, subject line, preview text and body. Always 3 subject lines per email (max 7 words), placeholders like [first name], one clear CTA, unsubscribe line. No fake urgency, no invented reviews.`},
+ {id:'herald', name:'Herald', role:'Organic social', c:'#d65a0a', tint:'#fff0e3', btn:'#ffe0c6',
+  does:'Creates posts for Instagram, TikTok, LinkedIn and X, Reels scripts, carousels and a content calendar.',
+  about:'Creates organic content for Instagram, TikTok, LinkedIn and X: scroll-stopping hooks, product demos, UGC-style videos and carousels.',
+  gives:['Reels and TikTok scripts with hook and shot list','Carousels, slide by slide','Captions and hashtags per channel','Content calendar per channel'],
+  ex:['3 TikTok scripts for our bestseller','Instagram carousel: how to use our product'],
+  quip:'Herald is already thinking about hashtags.',
+  brief:`ROLE: social media strategist and creator for an e-commerce brand. TASK: create organic content for the channels asked (default Instagram and TikTok). TikTok/Reels: 15-40 second script with a hook in the first 2 seconds, shot list, on-screen text, spoken lines, caption, 3-5 hashtags, sound idea. Instagram carousel: text per slide (max 8 slides) plus caption. LinkedIn/X if asked. Mix formats: product demo, UGC-style review (no fake testimonials: write it as a brief for a real customer or creator), behind the scenes, how-to, offer. For a calendar: date, channel, format, topic, goal. Influencer content must be marked as advertising (#ad).`},
  {id:'promoter', name:'Promoter', role:'Meta Ads', c:'#cc2457', tint:'#fde7ee', btn:'#fbd2e0',
-  does:'Maakt Meta Ads-campagnes voor Facebook en Instagram, met doelgroepen, advertentievarianten, budget en een testplan.',
-  about:'Zet Meta Ads-campagnes op voor Facebook en Instagram: doelgroepen, creatives, advertentieteksten, budgetverdeling en A/B-tests. Guardian checkt elke advertentie.',
-  gives:['Campagne-opzet: doel, structuur, budgetverdeling','Doelgroepen: breed, interesses, lookalikes, retargeting','3 tot 5 advertentievarianten met hooks','Creatieve briefing voor beeld of 9:16-video','KPI’s: ROAS, CPA, CTR, CPM'],
-  ex:['Meta Ads-campagne voor onze Black Friday-actie','Retargetingcampagne voor bezoekers die niet kochten'],
-  quip:'Promoter heeft al drie A/B-tests in gedachten.',
+  does:'Builds Meta Ads campaigns for Facebook and Instagram, with audiences, ad variants, budget and a test plan.',
+  about:'Sets up Meta Ads campaigns for Facebook and Instagram: audiences, creatives, ad copy, budget split and A/B tests. Guardian reviews every ad.',
+  gives:['Campaign setup: objective, structure, budget split','Audiences: broad, interests, lookalikes, retargeting','3 to 5 ad variants with hooks','Creative brief for image or 9:16 video','KPIs: ROAS, CPA, CTR, CPM'],
+  ex:['Meta Ads campaign for our Black Friday sale','Retargeting campaign for visitors who did not buy'],
+  quip:'Promoter already has three A/B tests in mind.',
   brief:`ROLE: Meta Ads specialist for e-commerce (Facebook and Instagram). TASK: plan and write the campaign. Deliver: objective and structure (Advantage+ shopping or manual: campaign / ad sets / ads); audiences per ad set (broad, interests, lookalikes, retargeting windows); budget split and a simple test plan (what to test first: hook, creative, offer); 3-5 ad variants (primary text max 125 characters, headline max 40, description, CTA button); a creative brief per variant (static, carousel or 9:16 video with a hook in the first 2 seconds, UGC style where it fits); KPIs and decision rules (ROAS, CPA, CTR, CPM, when to scale or stop). Never invent budgets, prices or results the user did not give; propose ranges marked [CHECK]. Follow Meta ad policies: no before/after, no implying personal attributes ("Do you have acne?"), no misleading discounts.`},
- {id:'builder', name:'Builder', role:'Pagina’s & sales assets', c:'#3a8a1c', tint:'#ebf8e2', btn:'#d6f1c5',
-  does:'Schrijft landingspagina’s, productpagina’s, nieuwsbrieven en one-pagers die converteren.',
-  about:'Schrijft de teksten voor landingspagina’s, productpagina’s, nieuwsbrieven en sales assets zoals een line sheet voor winkels.',
-  gives:['Landings- of productpagina: kop, voordelen, bewijs, CTA','Nieuwsbrief tot 400 woorden','One-pager of line sheet voor retailers','FAQ en bezwaren-sectie'],
-  ex:['Landingspagina voor onze nieuwe productbundel','One-pager voor winkels die ons willen inkopen'],
-  quip:'Builder ruimt de steigers op.',
+ {id:'builder', name:'Builder', role:'Pages & sales assets', c:'#3a8a1c', tint:'#ebf8e2', btn:'#d6f1c5',
+  does:'Writes landing pages, product pages, newsletters and one-pagers that convert.',
+  about:'Writes the copy for landing pages, product pages, newsletters and sales assets such as a line sheet for retailers.',
+  gives:['Landing or product page: headline, benefits, proof, CTA','Newsletter up to 400 words','One-pager or line sheet for retailers','FAQ and objections section'],
+  ex:['Landing page for our new product bundle','One-pager for stores that want to stock us'],
+  quip:'Builder is tidying up the scaffolding.',
   brief:`ROLE: conversion copywriter for e-commerce. TASK: build the requested asset. Landing or product page: headline (one promise), subheadline, 3-5 benefits, how it works, social proof section (only real proof from the brief or a [CHECK] placeholder), FAQ with objections, offer and CTA, plus SEO title and meta description. Newsletter: subject lines, preview text, sections, CTA, max 400 words. Retailer one-pager / line sheet: brand story, products with [price] placeholders, margins and terms from the brief, ordering info.`},
  {id:'guardian', name:'Guardian', role:'Claims & compliance', c:'#1f5bd8', tint:'#e6eeff', btn:'#d2e0ff',
-  does:'Checkt teksten en advertenties op riskante claims, Europese regels en de advertentieregels van Meta en TikTok.',
-  about:'Leest alles voordat het online gaat: productclaims, kortingen, influencer-markering, privacy en de advertentieregels van Meta en TikTok. Hoeft nooit handmatig gestart te worden. Vervangt geen jurist.',
-  gives:['Oordeel: GOED, AANPASSEN of STOP','Per probleem een herschreven zin','Wat je nog moet laten checken'],
-  ex:['Check: "Verwijdert rimpels in 7 dagen, 100% natuurlijk"','Mag ik "was €49, nu €29" in mijn advertentie zetten?'],
-  quip:'Guardian heeft elk woord gelezen. Twee keer.',
-  brief:`ROLE: critical compliance reviewer for e-commerce marketing in the EU/NL. Check against: misleading claims (Unfair Commercial Practices Directive), product-specific rules (cosmetics claims criteria, health and nutrition claims for food and supplements, medical-device claims), green claims, price and discount rules (show the lowest price of the previous 30 days for discounts), influencer disclosure (#ad / #samenwerking), GDPR consent for email, and Meta/TikTok ad policies (before/after, personal attributes, health). TASK: review the drafts from earlier steps, or the text in the task. Deliver: verdict GOED / AANPASSEN / STOP, then per issue: fragment, problem, risk (laag/midden/hoog), suggested rewrite. When in doubt, AANPASSEN. You do not replace legal counsel; say what to have checked.`},
- {id:'analyst', name:'Analyst', role:'Data & optimalisatie', c:'#5a2fe0', tint:'#eee8ff', btn:'#dfd5ff',
-  does:'Maakt van campagne- en salesdata een duidelijk rapport met aanbevelingen voor optimalisatie en groei.',
-  about:'Zet je campagne- en verkoopcijfers om in een helder rapport met concrete verbeterpunten. Gebruikt alleen cijfers die jij geeft; zonder cijfers maakt hij een meetplan.',
-  gives:['Samenvatting in 3 zinnen','KPI-tabel: ROAS, CPA, conversie, AOV','3 optimalisaties met verwachte impact','Of: een meetplan met KPI’s en doelen'],
-  ex:['Analyseer: €2.400 spend, €7.900 omzet, 212 orders','Welke KPI’s moet ik volgen voor mijn lancering?'],
-  quip:'Analyst heeft de cijfers voor de zekerheid nog eens nagerekend.',
-  brief:`ROLE: e-commerce data analyst. TASK: analyse the numbers given, or write a measurement plan if there are none. Only use figures from the task; missing = "geen data"; compute ratios yourself and show the formula (ROAS = revenue / spend, CPA = spend / orders, AOV = revenue / orders, conversion rate = orders / sessions). Deliver: 3-sentence summary, KPI table (KPI, target, result, change), what is working and what is not, 3 optimisations with expected impact and how to test them.`}
+  does:'Checks copy and ads for risky claims, EU rules and the ad policies of Meta and TikTok.',
+  about:'Reads everything before it goes live: product claims, discounts, influencer disclosure, privacy and the ad policies of Meta and TikTok. Never needs to be started by hand. Does not replace legal advice.',
+  gives:['Verdict: OK, REVISE or STOP','A rewritten line for every issue','What you still need to have checked'],
+  ex:['Check: "Removes wrinkles in 7 days, 100% natural"','Can I use "was €49, now €29" in my ad?'],
+  quip:'Guardian read every word. Twice.',
+  brief:`ROLE: critical compliance reviewer for e-commerce marketing in the EU. Check against: misleading claims (Unfair Commercial Practices Directive), product-specific rules (cosmetics claims criteria, health and nutrition claims for food and supplements, medical-device claims), green claims, price and discount rules (show the lowest price of the previous 30 days for discounts), influencer disclosure (#ad), GDPR consent for email, and Meta/TikTok ad policies (before/after, personal attributes, health). TASK: review the drafts from earlier steps, or the text in the task. Deliver: verdict OK / REVISE / STOP, then per issue: fragment, problem, risk (low/medium/high), suggested rewrite. When in doubt, REVISE. You do not replace legal counsel; say what to have checked.`},
+ {id:'analyst', name:'Analyst', role:'Data & optimisation', c:'#5a2fe0', tint:'#eee8ff', btn:'#dfd5ff',
+  does:'Turns campaign and sales data into a clear report with recommendations for optimisation and growth.',
+  about:'Turns your campaign and sales numbers into a clear report with concrete improvements. Only uses figures you provide; without figures it writes a measurement plan.',
+  gives:['Three-sentence summary','KPI table: ROAS, CPA, conversion, AOV','3 optimisations with expected impact','Or: a measurement plan with KPIs and targets'],
+  ex:['Analyse: €2,400 spend, €7,900 revenue, 212 orders','Which KPIs should I track for my launch?'],
+  quip:'Analyst re-ran the numbers, just to be sure.',
+  brief:`ROLE: e-commerce data analyst. TASK: analyse the numbers given, or write a measurement plan if there are none. Only use figures from the task; missing = "no data"; compute ratios yourself and show the formula (ROAS = revenue / spend, CPA = spend / orders, AOV = revenue / orders, conversion rate = orders / sessions). Deliver: 3-sentence summary, KPI table (KPI, target, result, change), what is working and what is not, 3 optimisations with expected impact and how to test them.`}
 ];
 const HOWTO = {
- navigator:['Je doel in één zin; hij leest je Brand Memory zelf','Een workflow: welke agents, in welke volgorde, en wat ieder doet','Altijd als startpunt, zeker als je niet weet welke agent je nodig hebt'],
- scout:['Wat je verkoopt en wie je zoekt: klanten, winkels of creators','Doelgroepsegmenten, zoekopdrachten, bronnen en beslissers','Aan het begin, als je wilt weten wie je moet bereiken'],
- researcher:['Product, doelgroep en eventueel concurrenten','USP’s, bezwaren, kernboodschap en welke claims wel en niet kunnen','Vóór je content of advertenties maakt'],
- messenger:['Wie je mailt en wat je ermee wilt bereiken','Een mailreeks of klantflow met onderwerpregels en call-to-action','Na Scout voor outreach, of voor je webshopflows'],
- herald:['Product, kanaal en het doel van de content','Scripts, carrousels, captions, hashtags en een contentkalender','Na Researcher, zodat de boodschap klopt'],
- promoter:['Product, doelgroep en campagnedoel; budget als je het weet','Doelgroepen, creatives, copy, budgetverdeling en een testplan','Nadat Researcher je doelgroep en boodschap heeft onderzocht'],
- builder:['Welke pagina of asset, voor welk product en welk aanbod','Complete paginatekst: kop, voordelen, bewijs, FAQ en call-to-action','Vóór je advertenties live zet, zodat ze ergens naartoe leiden'],
- guardian:['Een tekst of advertentie; in een workflow pakt hij de eerdere stappen zelf','Oordeel GOED, AANPASSEN of STOP, met herschreven zinnen','Automatisch vóór alles wat online gaat; je hoeft hem nooit zelf te starten'],
- analyst:['Je cijfers: spend, omzet, orders en sessies; of niets voor een meetplan','KPI-overzicht, wat werkt en wat niet, en 3 verbeteringen','Na je campagne, of vooraf om te bepalen wat je gaat meten']
+ navigator:['Your goal in one sentence; it reads your Brand Memory itself','A workflow: which agents, in what order, and what each one does','Always as the starting point, especially when you do not know which agent you need'],
+ scout:['What you sell and who you are looking for: customers, stores or creators','Audience segments, searches, sources and decision-makers','At the start, when you want to know who to reach'],
+ researcher:['Product, audience and any competitors','USPs, objections, core message and which claims are safe','Before you create content or ads'],
+ messenger:['Who you are emailing and what you want to achieve','An email sequence or customer flow with subject lines and a call to action','After Scout for outreach, or for your store flows'],
+ herald:['Product, channel and the goal of the content','Scripts, carousels, captions, hashtags and a content calendar','After Researcher, so the message is right'],
+ promoter:['Product, audience and campaign goal; budget if you know it','Audiences, creatives, copy, budget split and a test plan','After Researcher has explored your audience and message'],
+ builder:['Which page or asset, for which product and offer','Complete page copy: headline, benefits, proof, FAQ and call to action','Before your ads go live, so they lead somewhere'],
+ guardian:['A text or ad; in a workflow it picks up the earlier steps itself','Verdict OK, REVISE or STOP, with rewritten lines','Automatically before anything goes live; you never have to start it'],
+ analyst:['Your numbers: spend, revenue, orders and sessions; or nothing for a measurement plan','KPI overview, what works and what does not, and 3 improvements','After your campaign, or beforehand to decide what to measure']
 };
-const howBox = a => { const [g,k,w]=HOWTO[a.id]; return `<div><b>Wat geef je mee?</b>${esc(g)}</div><div><b>Wat krijg je?</b>${esc(k)}</div><div><b>Wanneer gebruiken?</b>${esc(w)}</div>`; };
+const howBox = a => { const [g,k,w]=HOWTO[a.id]; return `<div><b>What do you give it?</b>${esc(g)}</div><div><b>What do you get?</b>${esc(k)}</div><div><b>When to use it?</b>${esc(w)}</div>`; };
 const infoSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>';
 const openInfo = new Set();
 const DEMO_OUT = {
- researcher:`**Kernboodschap**
-- Klant: "Natuurlijke verzorging die je huid zacht en verzorgd houdt, in een fles die je navult."
-- Retailer: "Een bestseller uit Benelux-conceptstores met een marge van 45 tot 50%."
+ researcher:`**Core message**
+- Customer: "Natural care that keeps your skin soft and nourished, in a bottle you refill."
+- Retailer: "A bestseller from Benelux concept stores with a 45 to 50% margin."
 
-**Top 3 USP's**
-- Navulbare glazen verpakking (bewijs: foto van het navulsysteem)
-- Vegan en gemaakt in Nederland (bewijs: certificaat [CHECK])
-- Bestseller in conceptstores (bewijs: lijst met verkooppunten [CHECK])
+**Top 3 USPs**
+- Refillable glass packaging (proof: photo of the refill system)
+- Vegan and made in the Netherlands (proof: certificate [CHECK])
+- Bestseller in concept stores (proof: list of stockists [CHECK])
 
-**Bezwaren van klanten**
-- "Olie op mijn gezicht? Dan word ik vet." → laat zien hoe snel het intrekt
-- "€49 is veel." → reken per gebruik: een fles gaat ongeveer 3 maanden mee [CHECK]
+**Customer objections**
+- "Oil on my face? It will feel greasy." → show how quickly it absorbs
+- "€49 is a lot." → break it down per use: one bottle lasts about 3 months [CHECK]
 
 **Claims**
-- Kan: "voor een zachte, verzorgde huid"
-- Kan niet: "anti-aging", "geneest", "100% chemicaliënvrij"
+- Safe: "for soft, nourished skin"
+- Not safe: "anti-ageing", "cures", "100% chemical-free"
 
-Open vragen: welke certificaten zijn er precies?`,
- scout:`**Klantsegmenten**
-- Bewuste kopers (25 tot 45): kiezen op ingrediënten, volgen #cleanbeauty
-- Cadeaukopers: zoeken een mooi verpakt product van €30 tot €50
-- Spa-bezoekers: willen thuis dezelfde ervaring
+Open questions: which certificates do we have exactly?`,
+ scout:`**Customer segments**
+- Conscious buyers (25 to 45): choose on ingredients, follow #cleanbeauty
+- Gift buyers: look for a beautifully packaged product at €30 to €50
+- Spa visitors: want the same experience at home
 
-**Waar vind je retailers?**
-- Google: "conceptstore" + "natuurlijke cosmetica" + stad
-- Instagram: #conceptstore, #duurzamewinkel, #zerowastewinkel
-- Faire en Ankorstore: filter op categorie Beauty en land NL, BE, DE
-- Beurzen: exposantenlijsten van beauty- en lifestylebeurzen [CHECK]
+**Where to find retailers**
+- Google: "concept store" + "natural cosmetics" + city
+- Instagram: #conceptstore, #sustainableshop, #zerowasteshop
+- Faire and Ankorstore: filter by Beauty and country NL, BE, DE
+- Trade fairs: exhibitor lists of beauty and lifestyle fairs [CHECK]
 
-**Signalen van een goede match**
-- Verkoopt al 2 of meer vegan merken
-- Heeft een webshop én een fysieke winkel
+**Signals of a good match**
+- Already stocks 2 or more vegan brands
+- Has both a webshop and a physical store
 
-**Beslissers**
-- Eigenaar, inkoper, buyer beauty
+**Decision-makers**
+- Owner, buyer, beauty buyer
 
-Open vragen: willen jullie ook creators benaderen?`,
- promoter:`**Campagne-opzet**
-- Doel: verkopen (conversies)
-- Structuur: 1 campagne, 3 advertentiesets
+Open questions: do we also want to approach creators?`,
+ promoter:`**Campaign setup**
+- Objective: sales (conversions)
+- Structure: 1 campaign, 3 ad sets
 
-**Doelgroepen**
-- Breed: vrouwen 25 tot 45, NL en BE
-- Interesses: natuurlijke huidverzorging, vegan beauty
-- Retargeting: websitebezoekers van de afgelopen 30 dagen
+**Audiences**
+- Broad: women 25 to 45, NL and BE
+- Interests: natural skincare, vegan beauty
+- Retargeting: website visitors from the last 30 days
 
-**Advertentievarianten**
-- A: "Je huid verdient eenvoud." · Kop: Navulbaar serum · Knop: Shop nu
-- B: "Eén fles. Drie maanden verzorging." · Kop: Bestseller uit NL · Knop: Meer info
+**Ad variants**
+- A: "Your skin deserves simplicity." · Headline: Refillable serum · Button: Shop now
+- B: "One bottle. Three months of care." · Headline: Made in NL bestseller · Button: Learn more
 
-**Creatieve briefing**
-- 9:16-video: hand vult de glazen fles, hook binnen 2 seconden
+**Creative brief**
+- 9:16 video: a hand refills the glass bottle, hook within 2 seconds
 
-**Budget en test**
-- Verdeling 60/40 over breed en retargeting; bedrag [CHECK]
-- Test eerst de hook, daarna het aanbod
+**Budget and test**
+- 60/40 split between broad and retargeting; amount [CHECK]
+- Test the hook first, then the offer
 
-Open vragen: wat is het maandbudget?`,
- herald:`**TikTok-script 1 (25 sec): "Navullen in 10 seconden"**
-- Hook (0-2s): "Ik gooi nooit meer een serumfles weg."
-- Shots: lege fles → navulzakje → vullen → op de huid
-- Tekst in beeld: "navulbaar · vegan · gemaakt in NL"
-- Caption: Zo simpel is het. #skincare #navulbaar #ad
+Open questions: what is the monthly budget?`,
+ herald:`**TikTok script 1 (25 sec): "Refill in 10 seconds"**
+- Hook (0-2s): "I never throw away a serum bottle anymore."
+- Shots: empty bottle → refill pouch → refilling → on the skin
+- On-screen text: "refillable · vegan · made in NL"
+- Caption: It is that simple. #skincare #refillable #ad
 
-**Instagram-carrousel: "Zo gebruik je gezichtsolie"**
-1. Gezichtsolie? Ja, ook bij een gemengde huid.
-2. Stap 1: reinig je huid.
-3. Stap 2: 3 druppels in je handpalm.
-4. Stap 3: zacht indrukken, niet wrijven.
-5. Klaar. Shop via de link in bio.
+**Instagram carousel: "How to use face oil"**
+1. Face oil? Yes, even for combination skin.
+2. Step 1: cleanse your skin.
+3. Step 2: 3 drops in your palm.
+4. Step 3: press gently, do not rub.
+5. Done. Shop via the link in bio.
 
-Open vragen: is er al bestaand videomateriaal?`,
- builder:`**Landingspagina: navulbaar serum**
+Open questions: is there existing video footage?`,
+ builder:`**Landing page: refillable serum**
 
-**Kop:** Natuurlijke verzorging, zonder weggooifles.
-**Subkop:** Vegan gezichtsolie, gemaakt in Nederland. Eén keer kopen, daarna navullen.
+**Headline:** Natural care, without the throwaway bottle.
+**Subheadline:** Vegan face oil, made in the Netherlands. Buy once, then refill.
 
-**Voordelen**
-- Trekt snel in, geen vettig gevoel
-- Navulbaar glas, minder afval
-- Gemaakt in Nederland
+**Benefits**
+- Absorbs quickly, no greasy feel
+- Refillable glass, less waste
+- Made in the Netherlands
 
-**Bewijs:** [CHECK: echte reviews of verkooppunten toevoegen]
+**Proof:** [CHECK: add real reviews or stockists]
 
 **FAQ**
-- Is het geschikt voor een gevoelige huid? [CHECK]
-- Hoe lang doe ik met een fles? Ongeveer 3 maanden [CHECK]
+- Is it suitable for sensitive skin? [CHECK]
+- How long does a bottle last? About 3 months [CHECK]
 
-**Call-to-action:** Shop de bestsellers
+**Call to action:** Shop the bestsellers
 
-SEO-titel: Navulbaar vegan gezichtsserum | Lumière Botanicals`,
- messenger:`**Outreach-reeks voor conceptstores**
+SEO title: Refillable vegan face serum | Lumière Botanicals`,
+ messenger:`**Outreach sequence for concept stores**
 
-**Mail 1 (dag 0)**
-Onderwerp: Navulbare huidverzorging voor [winkelnaam]?
-Hoi [voornaam],
-Ik zag dat jullie [haakje: merk of product uit hun winkel] verkopen. Wij maken vegan gezichtsoliën in navulbaar glas, nu een bestseller in Benelux-conceptstores. Zal ik een gratis samplebox sturen?
-Groet, Sophie
+**Email 1 (day 0)**
+Subject: Refillable skincare for [store name]?
+Hi [first name],
+I noticed you stock [hook: a brand or product from their store]. We make vegan face oils in refillable glass, now a bestseller in Benelux concept stores. Shall I send you a free sample box?
+Best, Sophie
 
-**Mail 2 (dag 3)**
-Onderwerp: Wat klanten vragen
-Korte tip: klanten vragen vooral naar navulbare opties. Wij leveren vanaf €300, met 45 tot 50% marge.
+**Email 2 (day 3)**
+Subject: What customers ask for
+Quick tip: customers mostly ask for refillable options. We deliver from €300, with a 45 to 50% margin.
 
-Afmelden? Antwoord met "stop".`,
- guardian:`**Oordeel: AANPASSEN**
+Unsubscribe? Reply with "stop".`,
+ guardian:`**Verdict: REVISE**
 
 **1. Promoter, variant B**
-- Fragment: "Drie maanden verzorging"
-- Probleem: duur niet onderbouwd
-- Risico: midden
-- Herschrijf: "Met één fles doe je lang"
+- Fragment: "Three months of care"
+- Problem: duration not substantiated
+- Risk: medium
+- Rewrite: "One bottle lasts a long time"
 
-**2. Herald, TikTok-script**
-- Fragment: #ad staat aan het eind
-- Probleem: markering moet direct zichtbaar zijn
-- Risico: laag
-- Herschrijf: zet "Advertentie" in beeld in de eerste seconde
+**2. Herald, TikTok script**
+- Fragment: #ad is at the end
+- Problem: disclosure must be visible straight away
+- Risk: low
+- Rewrite: show "Ad" on screen in the first second
 
 **3. Builder, FAQ**
-- Fragment: "geschikt voor een gevoelige huid"
-- Probleem: claim zonder onderbouwing
-- Risico: hoog
-- Herschrijf: weglaten tot er een test is
+- Fragment: "suitable for sensitive skin"
+- Problem: claim without substantiation
+- Risk: high
+- Rewrite: remove until there is a test
 
-Laat checken: de veiligheidsbeoordeling van het product.`,
- analyst:`**Meetplan voor deze missie**
+Have checked: the product safety assessment.`,
+ analyst:`**Measurement plan for this mission**
 
-**KPI's**
-- ROAS = omzet / advertentie-uitgaven · doel [CHECK]
-- CPA = uitgaven / orders · doel [CHECK]
-- Conversie = orders / sessies
-- AOV = omzet / orders
+**KPIs**
+- ROAS = revenue / ad spend · target [CHECK]
+- CPA = spend / orders · target [CHECK]
+- Conversion rate = orders / sessions
+- AOV = revenue / orders
 
-**Meten**
-- Meta Pixel en Conversions API aan
-- UTM-tags per advertentievariant
+**Tracking**
+- Meta Pixel and Conversions API on
+- UTM tags per ad variant
 
-**Beslisregels na 7 dagen**
-- CTR onder 1%: nieuwe hook testen
-- Retargeting met ROAS onder doel: budget naar breed verplaatsen
+**Decision rules after 7 days**
+- CTR below 1%: test a new hook
+- Retargeting with ROAS below target: move budget to broad
 
-Geen cijfers ontvangen, dus nog geen analyse. Deel na een week de cijfers voor een rapport.`,
+No figures received yet, so no analysis. Share the numbers after a week for a report.`,
  navigator:``
 };
 const byId = id => AG.find(a=>a.id===id);
 const NAV = AG[0], WORKERS = AG.slice(1);
-const STATE_LABEL = {idle:'Beschikbaar', waiting:'Wacht', thinking:'Plant', working:'Bezig', done:'Klaar', error:'Gestopt'};
+const STATE_LABEL = {idle:'Available', waiting:'Waiting', thinking:'Planning', working:'Working', done:'Done', error:'Stopped'};
 
 const QUICK = [
-  ['navigator','Product lanceren','Lanceer ons nieuwe product: van onderzoek tot advertenties'],
-  ['analyst','Meer verkopen','Ik wil meer verkopen met mijn nieuwe huidverzorgingslijn'],
-  ['scout','Klanten vinden','Vind conceptstores en webshops die ons product kunnen verkopen en schrijf een outreachmail'],
-  ['promoter','Campagne maken','Maak een Meta Ads-campagne voor onze Black Friday-actie'],
-  ['herald','Social content','Schrijf 3 TikTok-scripts en een Instagram-carrousel voor onze bestseller'],
-  ['builder','Conversie verbeteren','Bouw een landingspagina die beter converteert voor onze bestseller'],
-  ['messenger','E-mailflow','Schrijf een e-mailflow voor verlaten winkelwagens'],
-  ['guardian','Claims checken','Check deze advertentietekst: "Verwijdert rimpels in 7 dagen, 100% natuurlijk"']
+  ['navigator','Launch product','Launch our new product: from research to ads'],
+  ['analyst','Increase sales','I want to sell more of my new skincare line'],
+  ['scout','Find customers','Find concept stores and webshops that could stock our product and write an outreach email'],
+  ['promoter','Create campaign','Create a Meta Ads campaign for our Black Friday sale'],
+  ['herald','Social content','Write 3 TikTok scripts and an Instagram carousel for our bestseller'],
+  ['builder','Improve conversion','Build a landing page that converts better for our bestseller'],
+  ['messenger','Email flow','Write an abandoned-cart email flow'],
+  ['guardian','Check claims','Check this ad copy: "Removes wrinkles in 7 days, 100% natural"']
 ];
 const BRAND_FIELDS = [
-  ['merk','Merk','Lumière Botanicals (voorbeeldmerk)'],
-  ['product','Product en prijs','Vegan gezichtsoliën en serums, gemaakt in Nederland, €29 tot €49'],
-  ['doelgroep','Doelgroep','Vrouwen van 25 tot 45 die bewust kiezen voor natuurlijke huidverzorging'],
-  ['b2b','B2B-klanten','Conceptstores, natuurwinkels, spa’s en online beautyshops in NL, BE en DE'],
-  ['usp','USP’s','Navulbare glazen verpakking; bestseller in Benelux-conceptstores'],
-  ['tone','Tone of voice','Warm, eerlijk, geen overdreven beloftes'],
-  ['verboden','Claims die niet mogen','geneest, anti-aging garantie, 100% chemicaliënvrij'],
-  ['cta','Call-to-action','Shop de bestsellers / vraag een gratis samplebox aan']
+  ['brand','Brand','Lumière Botanicals (demo brand)'],
+  ['product','Product and price','Vegan face oils and serums, made in the Netherlands, €29 to €49'],
+  ['audience','Audience','Women aged 25 to 45 who consciously choose natural skincare'],
+  ['b2b','B2B customers','Concept stores, organic shops, spas and online beauty stores in NL, BE and DE'],
+  ['usp','USPs','Refillable glass packaging; bestseller in Benelux concept stores'],
+  ['tone','Tone of voice','Warm, honest, no overpromising'],
+  ['banned','Claims we must not make','cures, anti-ageing guarantee, 100% chemical-free'],
+  ['cta','Call to action','Shop the bestsellers / request a free sample box']
 ];
 const HOW = [
-  {n:1,c:'#8a5cf7',t:'Kies je doel',p:'Vertel wat je wilt bereiken: meer verkopen, een lancering of nieuwe klanten.',img:'bubble',q:'“Ik wil meer verkopen met mijn supplement.”'},
-  {n:2,c:'#3b82f6',t:'Navigator maakt het plan',p:'Navigator bepaalt welke agents nodig zijn en in welke volgorde.',img:'navigator'},
-  {n:3,c:'#14a3c7',t:'Agents voeren het werk uit',p:'De gekozen agents werken samen en maken alle benodigde assets.',img:'cluster'},
-  {n:4,c:'#2563eb',t:'Guardian controleert',p:'Voor publicatie checkt Guardian teksten en advertenties op claims en regels.',img:'guardian'},
-  {n:5,c:'#a855f7',t:'Analyst leert en optimaliseert',p:'Analyst zet de cijfers om in een rapport en concrete verbeteringen.',img:'analyst'}
+  {n:1,c:'#8a5cf7',t:'Pick your goal',p:'Say what you want to achieve: more sales, a launch or new customers.',img:'bubble',q:'“I want to sell more of my supplement.”'},
+  {n:2,c:'#3b82f6',t:'Navigator makes the plan',p:'Navigator decides which agents are needed and in what order.',img:'navigator'},
+  {n:3,c:'#14a3c7',t:'Agents do the work',p:'The selected agents work together and create every asset you need.',img:'cluster'},
+  {n:4,c:'#2563eb',t:'Guardian reviews',p:'Before publishing, Guardian checks copy and ads for claims and rules.',img:'guardian'},
+  {n:5,c:'#a855f7',t:'Analyst learns and optimises',p:'Analyst turns the numbers into a report and concrete improvements.',img:'analyst'}
 ];
 
 /* ================= Persistence (per viewer) ================= */
@@ -604,13 +604,13 @@ const store = {
   get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
   set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
 };
-let brand = store.get('eag-brand',{});
+let brand = store.get('eag-en-brand',{});
 BRAND_FIELDS.forEach(([k,,d])=>{ if(brand[k]===undefined) brand[k]=d; });
-let tasks = store.get('eag-tasks',[]).filter(t=>t && Array.isArray(t.steps));
-tasks.forEach(t=>{ if(t.status==='run'||t.status==='queue'){ t.status='fail'; t.note='Onderbroken (pagina herladen)'; } t.open=false; t.steps.forEach(s=>{ if(!s.stage) s.stage=1; }); });
-let logLines = store.get('eag-log',[]);
-const saveTasks = ()=> store.set('eag-tasks', tasks.slice(0,30).map(({ctl,...t})=>t));
-const brandText = ()=> 'BRAND BRIEF\n'+BRAND_FIELDS.map(([k,l])=>`${l}: ${brand[k]||'[onbekend]'}`).join('\n');
+let tasks = store.get('eag-en-tasks',[]).filter(t=>t && Array.isArray(t.steps));
+tasks.forEach(t=>{ if(t.status==='run'||t.status==='queue'){ t.status='fail'; t.note='Interrupted (page reloaded)'; } t.open=false; t.steps.forEach(s=>{ if(!s.stage) s.stage=1; }); });
+let logLines = store.get('eag-en-log',[]);
+const saveTasks = ()=> store.set('eag-en-tasks', tasks.slice(0,30).map(({ctl,...t})=>t));
+const brandText = ()=> 'BRAND BRIEF\n'+BRAND_FIELDS.map(([k,l])=>`${l}: ${brand[k]||'[unknown]'}`).join('\n');
 
 const S = {}; AG.forEach(a=> S[a.id]={st:'idle', task:null, started:0, words:0, done:0});
 tasks.forEach(t=>t.steps.forEach(s=>{ if(s.out && t.status==='done' && S[s.agent]) S[s.agent].done++; }));
@@ -626,19 +626,19 @@ const vars = a => `--c:${a.c};--tint:${a.tint};--btn:${a.btn}`;
 const pill = st => `<span class="st ${st}"><i></i>${STATE_LABEL[st]||st}</span>`;
 function statusText(a){
   const s=S[a.id];
-  if(s.st==='working'){ const sec=Math.round((Date.now()-s.started)/1000); return `Schrijft · ${sec}s${s.words?` · ${s.words} woorden`:''}`; }
-  if(s.st==='thinking') return 'Plant de workflow';
+  if(s.st==='working'){ const sec=Math.round((Date.now()-s.started)/1000); return `Writing · ${sec}s${s.words?` · ${s.words} words`:''}`; }
+  if(s.st==='thinking') return 'Planning the workflow';
   return STATE_LABEL[s.st];
 }
 
 /* ================= Views ================= */
 const VIEWS = {
-  dashboard:['Dashboard','Geef een doel, geen prompt. Navigator stelt het team samen.'],
-  agents:['AI Agents','Jouw complete e-commerce AI-team. Open een agent of laat Navigator automatisch de beste workflow samenstellen.'],
-  results:['Resultaten','Alles wat de agents voor je hebben gemaakt.'],
-  brand:['Brand Memory','Eén centraal geheugen voor je merk. Alle agents lezen hieruit, zodat niemand opnieuw vraagt wie je doelgroep is.'],
-  activity:['Activiteit','Wat het team heeft gedaan, nieuwste eerst.'],
-  how:['Hoe werkt Ecom Agent Garden?','Een compleet AI-team dat samenwerkt om jouw product te laten groeien. Leer het door het te doen.']
+  dashboard:['Dashboard','Give it a goal, not a prompt. Navigator assembles the team.'],
+  agents:['AI Agents','Your complete e-commerce AI team. Open an agent, or let Navigator build the best workflow for you.'],
+  results:['Results','Everything the agents have created for you.'],
+  brand:['Brand Memory','One central memory for your brand. Every agent reads from it, so nobody asks who your audience is again.'],
+  activity:['Activity','What the team has done, newest first.'],
+  how:['How does Ecom Agent Garden work?','A complete AI team that works together to grow your product. Learn it by doing it.']
 };
 let view = store.get('eag-view','dashboard'); if(!VIEWS[view]) view='dashboard';
 function go(v){
@@ -669,7 +669,7 @@ function renderDashAgents(){
       ${ico(a.id,96)}
       ${st!=='idle'?`<span class="stp">${pill(st)}</span>`:''}<div class="nm">${a.name}${a===NAV?'<span class="orch">★ Orchestrator</span>':''}</div>
       <div class="ds">${esc(a.does)}</div>
-      <button type="button" class="how-btn" data-info="${a.id}" aria-expanded="${openInfo.has(a.id)}">${infoSvg} Hoe werkt dit?</button>
+      <button type="button" class="how-btn" data-info="${a.id}" aria-expanded="${openInfo.has(a.id)}">${infoSvg} How does this work?</button>
       ${openInfo.has(a.id)?`<div class="howbox">${howBox(a)}</div>`:''}
       <button type="button" class="open" data-open="${a.id}">Open ${a.name} ${arrowSvg}</button></div>`;
   }).join('');
@@ -684,7 +684,7 @@ function renderBig(q=''){
     ${a===NAV?'<span class="orch">★ Orchestrator</span>':''}
     <div class="hd">${ico(a.id,150)}<div class="nm">${a.name}${S[a.id].st!=='idle'?pill(S[a.id].st):''}</div></div>
     <div class="ds">${esc(a.does)}</div>
-    <button type="button" class="how-btn" data-info="${a.id}" aria-expanded="${openInfo.has(a.id)}">${infoSvg} Hoe werkt dit?</button>
+    <button type="button" class="how-btn" data-info="${a.id}" aria-expanded="${openInfo.has(a.id)}">${infoSvg} How does this work?</button>
     ${openInfo.has(a.id)?`<div class="howbox">${howBox(a)}</div>`:''}
     <button type="button" class="open" data-open="${a.id}">Open ${a.name} ${arrowSvg}</button></div>`).join('');
   $('bigAgents').querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openAgent(b.dataset.open));
@@ -695,20 +695,20 @@ let viewTaskId = null;
 function currentTask(){ return tasks.find(t=>t.status==='run') || null; }
 function shownTask(){ return currentTask() || tasks.find(t=>t.id===viewTaskId) || null; }
 const stages = t => [...new Set(t.steps.map(s=>s.stage))].sort((a,b)=>a-b);
-function stepLabel(s){ return s.st==='working'?'Bezig':s.st==='done'?'Klaar':s.st==='error'?'Gestopt':'Wacht'; }
+function stepLabel(s){ return s.st==='working'?'Working':s.st==='done'?'Done':s.st==='error'?'Stopped':'Waiting'; }
 function renderWorkflow(){
   const t=shownTask(), panel=$('wfPanel');
   if(!t){ panel.hidden=true; return; }
   panel.hidden=false;
-  $('wfTitle').textContent=(t.forced?'Taak: ':'Missie: ')+t.title;
-  $('wfSub').textContent=t.forced?`Direct aan ${byId(t.forced).name}`:`${t.steps.length} stappen · samengesteld door Navigator`;
+  $('wfTitle').textContent=(t.forced?'Task: ':'Mission: ')+t.title;
+  $('wfSub').textContent=t.forced?`Assigned directly to ${byId(t.forced).name}`:`${t.steps.length} steps · assembled by Navigator`;
   const navPlanning = t.status==='run' && S.navigator.st==='thinking';
   const pst = t.status==='run' ? (navPlanning?'thinking':'working') : t.status==='done'?'done':'error';
-  const pl=$('wfPill'); pl.className='st '+pst; pl.lastElementChild.textContent = t.status==='run' ? (navPlanning?'Navigator plant':'Bezig') : t.status==='done'?'Voltooid':(t.note||'Gestopt');
+  const pl=$('wfPill'); pl.className='st '+pst; pl.lastElementChild.textContent = t.status==='run' ? (navPlanning?'Navigator is planning':'Running') : t.status==='done'?'Completed':(t.note||'Stopped');
   $('stopBtn').hidden = t.status!=='run'; $('stopBtn').onclick=()=>stopTask(t.id);
   const total=t.steps.length||1, doneN=t.steps.filter(s=>s.st==='done').length, pct=navPlanning?0:Math.round(100*doneN/total);
-  $('misBar').style.width=pct+'%'; $('misPct').textContent=pct+'%'; $('misSteps').textContent= navPlanning?'Navigator stelt het team samen…':`${doneN} van ${t.steps.length} stappen klaar`;
-  let html = t.forced ? '' : fsTile('navigator', navPlanning?'thinking':'done', navPlanning?'Plant':'Gepland');
+  $('misBar').style.width=pct+'%'; $('misPct').textContent=pct+'%'; $('misSteps').textContent= navPlanning?'Navigator is assembling the team…':`${doneN} of ${t.steps.length} steps done`;
+  let html = t.forced ? '' : fsTile('navigator', navPlanning?'thinking':'done', navPlanning?'Planning':'Planned');
   stages(t).forEach(sg=>{
     const group=t.steps.filter(s=>s.stage===sg);
     const inner=group.map(s=>fsTile(s.agent, s.st||'waiting', stepLabel(s))).join('');
@@ -717,8 +717,8 @@ function renderWorkflow(){
   $('flow').innerHTML=html;
   const nx=$('nextStep');
   const nextS=t.steps.find(s=>s.st==='working') || t.steps.find(s=>!s.st || s.st==='waiting');
-  if(t.status==='run' && !navPlanning && nextS){ nx.hidden=false; nx.innerHTML=`${ico(nextS.agent,32)}<span>${nextS.st==='working'?'Nu bezig':'Volgende stap'}: <b>${byId(nextS.agent).name}</b> · ${esc(nextS.task)}</span>`; }
-  else if(t.status==='done'){ nx.hidden=false; nx.innerHTML=`${ico('analyst',32)}<span><b>Missie voltooid.</b> Bekijk alle resultaten of geef het team een nieuw doel.</span>`; }
+  if(t.status==='run' && !navPlanning && nextS){ nx.hidden=false; nx.innerHTML=`${ico(nextS.agent,32)}<span>${nextS.st==='working'?'Working now':'Next step'}: <b>${byId(nextS.agent).name}</b> · ${esc(nextS.task)}</span>`; }
+  else if(t.status==='done'){ nx.hidden=false; nx.innerHTML=`${ico('analyst',32)}<span><b>Mission completed.</b> View all results or give the team a new goal.</span>`; }
   else nx.hidden=true;
   const s = t.steps.find(x=>x.st==='working') || [...t.steps].reverse().find(x=>x.out);
   if(s && s.out){
@@ -733,18 +733,18 @@ function fsTile(id, st, label){ const a=byId(id); return `<div class="fs ${st}" 
 
 function toggleInfo(id){ openInfo.has(id)?openInfo.delete(id):openInfo.add(id); }
 function renderMap(){
-  const M=[['bubble','Jouw doel'],['navigator','Navigator'],['cluster','Agent-workflow'],['guardian','Guardian-check'],[null,'Publiceren'],['analyst','Analyst'],['promoter','Optimaliseren']];
+  const M=[['bubble','Your goal'],['navigator','Navigator'],['cluster','Agent workflow'],['guardian','Guardian check'],[null,'Publish'],['analyst','Analyst'],['promoter','Optimise']];
   $('mentalMap').innerHTML=M.map(([i,l],k)=>`${k?'<span class="ar">'+arrowSvg+'</span>':''}<span class="m">${i?ico(i,24):'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6a3cf0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>'}${l}</span>`).join('');
 }
 function renderChecklist(){
   const brandEdited = BRAND_FIELDS.some(([k,,d])=>brand[k]!==d);
   const started = tasks.length>0, finished = tasks.some(t=>t.status==='done');
   const items=[
-    [brandEdited,'Vul je Brand Memory in','Vervang het voorbeeldmerk door je eigen product, doelgroep en claims.','brand','Open'],
-    [started,'Start je eerste missie','Geef Navigator een doel en kijk hoe het team samenwerkt.','try','Probeer'],
-    [finished,'Bekijk je resultaten','Kopieer wat je nodig hebt; Guardian heeft het al gecheckt.','results','Bekijk']
+    [brandEdited,'Fill in your Brand Memory','Replace the demo brand with your own product, audience and claims.','brand','Open'],
+    [started,'Start your first mission','Give Navigator a goal and watch the team work together.','try','Try it'],
+    [finished,'View your results','Copy what you need; Guardian has already checked it.','results','View']
   ];
-  $('checklist').innerHTML=items.map(([d,t,p,g,l])=>`<div class="ck${d?' done':''}"><span class="bx">${d?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}</span><div><b>${t}</b><span>${p}</span></div>${d?'':`<button type="button" class="btn" data-ck="${g}">${l}</button>`}</div>`).join('') + `<p class="empty" style="font-size:13px">${[brandEdited,started,finished].filter(Boolean).length} van 3 gedaan</p>`;
+  $('checklist').innerHTML=items.map(([d,t,p,g,l])=>`<div class="ck${d?' done':''}"><span class="bx">${d?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}</span><div><b>${t}</b><span>${p}</span></div>${d?'':`<button type="button" class="btn" data-ck="${g}">${l}</button>`}</div>`).join('') + `<p class="empty" style="font-size:13px">${[brandEdited,started,finished].filter(Boolean).length} of 3 done</p>`;
   $('checklist').querySelectorAll('[data-ck]').forEach(b=>b.onclick=()=>{ if(b.dataset.ck==='try') $('tryInput').focus(); else go(b.dataset.ck); });
 }
 /* drawer */
@@ -758,37 +758,37 @@ function renderDrawer(){
   if(!openId) return;
   const a=byId(openId), s=S[a.id], last=lastOutput(a.id), d=$('drawer');
   d.style.cssText=vars(a);
-  d.innerHTML=`<div class="dr-hd">${ico(a.id,120)}<div><h3>${a.name}</h3><p>${a.role}</p>${pill(s.st)}${a===NAV?' <span class="orch">★ Orchestrator</span>':''}</div><button type="button" class="x" aria-label="Sluiten">×</button></div>
+  d.innerHTML=`<div class="dr-hd">${ico(a.id,120)}<div><h3>${a.name}</h3><p>${a.role}</p>${pill(s.st)}${a===NAV?' <span class="orch">★ Orchestrator</span>':''}</div><button type="button" class="x" aria-label="Close">×</button></div>
     <p>${esc(a.about)}</p>
-    <div><div class="lbl">Huidige taak</div><div class="box" id="drTask">${taskBox(a)}</div></div>
-    <div><div class="lbl">Hoe werkt ${a.name}?</div><div class="howbox" style="margin:0;background:var(--tint)">${howBox(a)}</div></div>
-    <div><div class="lbl">Levert</div><ul>${a.gives.map(g=>`<li>${esc(g)}</li>`).join('')}</ul></div>
-    ${a===NAV?`<div><div class="lbl">Opdracht geven</div><p style="color:var(--muted)">Gebruik "Wat wil je bereiken?" op het dashboard. Navigator stelt bij elk doel het team samen.</p><button type="button" class="btn-primary" id="drGo" style="margin-top:10px">Naar het dashboard ${arrowSvg}</button></div>`:
-    `<div><div class="lbl">Direct een opdracht geven</div><form class="assign" id="assignForm"><input id="assignInput" autocomplete="off" placeholder="${esc(a.ex[0])}" aria-label="Opdracht voor ${esc(a.name)}"><button type="submit" class="btn-primary" style="padding:10px 18px">Start</button></form></div>`}
-    <div><div class="lbl">Voorbeelden</div><div class="chips">${a.ex.map(e=>`<button type="button" class="chip" data-ex="${esc(e)}">${esc(e)}</button>`).join('')}</div></div>
-    <div><div class="lbl">Afgerond</div><p>${s.done} ${s.done===1?'taak':'taken'}</p></div>
-    ${last?`<div><div class="lbl">Laatste resultaat</div><div class="box out">${md(last.out.slice(0,800))}${last.out.length>800?'…':''}</div><button type="button" class="btn" id="drRes" style="margin-top:10px">Bekijk resultaten</button></div>`:''}`;
+    <div><div class="lbl">Current task</div><div class="box" id="drTask">${taskBox(a)}</div></div>
+    <div><div class="lbl">How does ${a.name} work?</div><div class="howbox" style="margin:0;background:var(--tint)">${howBox(a)}</div></div>
+    <div><div class="lbl">Delivers</div><ul>${a.gives.map(g=>`<li>${esc(g)}</li>`).join('')}</ul></div>
+    ${a===NAV?`<div><div class="lbl">Give it a goal</div><p style="color:var(--muted)">Use "What do you want to achieve?" on the dashboard. Navigator assembles the team for every goal.</p><button type="button" class="btn-primary" id="drGo" style="margin-top:10px">Go to the dashboard ${arrowSvg}</button></div>`:
+    `<div><div class="lbl">Assign a task directly</div><form class="assign" id="assignForm"><input id="assignInput" autocomplete="off" placeholder="${esc(a.ex[0])}" aria-label="Task for ${esc(a.name)}"><button type="submit" class="btn-primary" style="padding:10px 18px">Start</button></form></div>`}
+    <div><div class="lbl">Examples</div><div class="chips">${a.ex.map(e=>`<button type="button" class="chip" data-ex="${esc(e)}">${esc(e)}</button>`).join('')}</div></div>
+    <div><div class="lbl">Completed</div><p>${s.done} ${s.done===1?'task':'tasks'}</p></div>
+    ${last?`<div><div class="lbl">Latest result</div><div class="box out">${md(last.out.slice(0,800))}${last.out.length>800?'…':''}</div><button type="button" class="btn" id="drRes" style="margin-top:10px">View results</button></div>`:''}`;
   d.querySelector('.x').onclick=closeAgent;
   d.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{ const inp=$('assignInput'); if(inp){ inp.value=b.dataset.ex; inp.focus(); } else { closeAgent(); go('dashboard'); $('taskInput').value=b.dataset.ex; $('taskInput').focus(); } });
   const f=$('assignForm'); if(f) f.onsubmit=e=>{ e.preventDefault(); const v=$('assignInput').value.trim(); if(!v) return; closeAgent(); newTask(v,a.id); go('dashboard'); };
   const g=$('drGo'); if(g) g.onclick=()=>{ closeAgent(); go('dashboard'); $('taskInput').focus(); };
   const r=$('drRes'); if(r) r.onclick=()=>{ closeAgent(); go('results'); openTask(last.task.id); };
 }
-function taskBox(a){ const s=S[a.id]; return s.task?esc(s.task)+`<br><span style="color:var(--muted);font-size:13px">${esc(statusText(a))}</span>`:'<span style="color:var(--muted)">Geen actieve taak</span>'; }
+function taskBox(a){ const s=S[a.id]; return s.task?esc(s.task)+`<br><span style="color:var(--muted);font-size:13px">${esc(statusText(a))}</span>`:'<span style="color:var(--muted)">No active task</span>'; }
 
 function renderTasks(){
   const done=tasks.filter(t=>t.status==='done').length; const n=$('resCount'); n.hidden=!done; n.textContent=done;
   const p=$('taskList'); if(view!=='results' && p.childElementCount) return;
-  if(!tasks.length){ p.innerHTML=`<p class="empty"><b>Nog geen resultaten.</b> Geef op het dashboard een doel aan Navigator, of open een agent en geef hem direct een opdracht.</p>`; return; }
+  if(!tasks.length){ p.innerHTML=`<p class="empty"><b>No results yet.</b> Give Navigator a goal on the dashboard, or open an agent and assign it a task directly.</p>`; return; }
   p.innerHTML = tasks.map(t=>{
     const route=(t.forced?[]:['Navigator']).concat(stages(t).map(sg=>t.steps.filter(s=>s.stage===sg).map(s=>byId(s.agent)?.name||s.agent).join(' + '))).join(' → ');
     const pst=t.status==='run'?'working':t.status==='done'?'done':t.status==='queue'?'waiting':'error';
-    const plabel=t.status==='run'?'Bezig':t.status==='done'?'Voltooid':t.status==='queue'?'In de wachtrij':(t.note||'Gestopt');
-    const outs=t.steps.filter(s=>s.out && byId(s.agent)).map(s=>{ const a=byId(s.agent), i=t.steps.indexOf(s); return `<div class="res"><div class="who">${ico(a.id,30)}${a.name} <small>· ${esc(s.task)}</small></div>${s.offline?'<div class="note">Demo: voorbeeldresultaat voor het demomerk. In Claude schrijft deze agent live op jouw opdracht.</div>':''}<div class="txt">${md(s.out)}</div><div class="acts"><button type="button" class="btn" data-copy="${t.id}:${i}">Kopieer</button>${s.offline&&s.prompt?`<button type="button" class="btn" data-copyp="${t.id}:${i}">Kopieer prompt</button>`:''}</div></div>`; }).join('');
+    const plabel=t.status==='run'?'Running':t.status==='done'?'Completed':t.status==='queue'?'Queued':(t.note||'Stopped');
+    const outs=t.steps.filter(s=>s.out && byId(s.agent)).map(s=>{ const a=byId(s.agent), i=t.steps.indexOf(s); return `<div class="res"><div class="who">${ico(a.id,30)}${a.name} <small>· ${esc(s.task)}</small></div>${s.offline?'<div class="note">Demo: example output for the demo brand. Inside Claude, this agent writes live for your goal.</div>':''}<div class="txt">${md(s.out)}</div><div class="acts"><button type="button" class="btn" data-copy="${t.id}:${i}">Copy</button>${s.offline&&s.prompt?`<button type="button" class="btn" data-copyp="${t.id}:${i}">Copy prompt</button>`:''}</div></div>`; }).join('');
     return `<article class="task" data-t="${t.id}"><div class="t">${esc(t.title)}</div>
       <div class="m"><span class="st ${pst}"><i></i>${esc(plabel)}</span><span>${esc(route)}</span><span>· ${hhmm(new Date(t.created))}</span></div>
-      ${outs?`<details data-d="${t.id}"${t.open?' open':''}><summary>${t.status==='done'?'Bekijk resultaten':'Gedeeltelijke resultaten'}</summary>${outs}</details>`:''}
-      <div class="acts">${t.status==='run'||t.status==='queue'?`<button type="button" class="btn" data-stop="${t.id}">Stop</button>`:`<button type="button" class="btn" data-show="${t.id}">Toon op dashboard</button><button type="button" class="btn" data-del="${t.id}">Verwijder</button>`}</div></article>`;
+      ${outs?`<details data-d="${t.id}"${t.open?' open':''}><summary>${t.status==='done'?'View results':'Partial results'}</summary>${outs}</details>`:''}
+      <div class="acts">${t.status==='run'||t.status==='queue'?`<button type="button" class="btn" data-stop="${t.id}">Stop</button>`:`<button type="button" class="btn" data-show="${t.id}">Show on dashboard</button><button type="button" class="btn" data-del="${t.id}">Delete</button>`}</div></article>`;
   }).join('');
   p.querySelectorAll('details').forEach(d=>d.ontoggle=()=>{ const t=tasks.find(x=>x.id===d.dataset.d); if(t) t.open=d.open; });
   p.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{ const [tid,i]=b.dataset.copy.split(':'); copy(tasks.find(x=>x.id===tid).steps[+i].out,b); });
@@ -799,23 +799,23 @@ function renderTasks(){
 }
 function openTask(id){ const t=tasks.find(x=>x.id===id); if(!t) return; t.open=true; renderTasks(); setTimeout(()=>document.querySelector(`[data-t="${id}"]`)?.scrollIntoView({behavior:'smooth',block:'start'}),50); }
 function copy(txt,btn){
-  const ok=()=>{ const o=btn.textContent; btn.textContent='Gekopieerd'; setTimeout(()=>btn.textContent=o,1400); };
-  const fallback=()=>{ const el=btn.closest('.res')?.querySelector('.txt'); if(!el) return; const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent='Geselecteerd · druk Ctrl+C'; };
+  const ok=()=>{ const o=btn.textContent; btn.textContent='Copied'; setTimeout(()=>btn.textContent=o,1400); };
+  const fallback=()=>{ const el=btn.closest('.res')?.querySelector('.txt'); if(!el) return; const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent='Selected · press Ctrl+C'; };
   try{ navigator.clipboard.writeText(txt).then(ok,fallback); }catch(e){ fallback(); }
 }
 function renderBrand(){
   const f=$('brandForm');
-  f.innerHTML = BRAND_FIELDS.map(([k,l])=>`<label for="bf-${k}">${l}${['product','doelgroep','b2b','usp'].includes(k)?`<textarea id="bf-${k}" name="${k}" rows="2">${esc(brand[k])}</textarea>`:`<input id="bf-${k}" name="${k}" value="${esc(brand[k])}">`}</label>`).join('') + `<p class="empty" style="grid-column:1/-1;font-size:13px">De ingevulde waarden zijn een voorbeeldmerk. Wijzigingen worden direct bewaard, alleen in deze browser.</p>`;
-  f.addEventListener('input',e=>{ brand[e.target.name]=e.target.value; store.set('eag-brand',brand); });
+  f.innerHTML = BRAND_FIELDS.map(([k,l])=>`<label for="bf-${k}">${l}${['product','audience','b2b','usp'].includes(k)?`<textarea id="bf-${k}" name="${k}" rows="2">${esc(brand[k])}</textarea>`:`<input id="bf-${k}" name="${k}" value="${esc(brand[k])}">`}</label>`).join('') + `<p class="empty" style="grid-column:1/-1;font-size:13px">The values filled in are a demo brand. Changes are saved instantly, in this browser only.</p>`;
+  f.addEventListener('input',e=>{ brand[e.target.name]=e.target.value; store.set('eag-en-brand',brand); });
   f.addEventListener('submit',e=>e.preventDefault());
 }
-function log(txt){ logLines.push({t:Date.now(),x:txt}); logLines=logLines.slice(-80); store.set('eag-log',logLines); renderLog(); }
-function renderLog(){ $('log').innerHTML = logLines.length ? logLines.slice().reverse().map(l=>`<div><time>${hhmm(new Date(l.t))}</time><span>${esc(l.x)}</span></div>`).join('') : '<p class="empty">Nog geen activiteit.</p>'; }
+function log(txt){ logLines.push({t:Date.now(),x:txt}); logLines=logLines.slice(-80); store.set('eag-en-log',logLines); renderLog(); }
+function renderLog(){ $('log').innerHTML = logLines.length ? logLines.slice().reverse().map(l=>`<div><time>${hhmm(new Date(l.t))}</time><span>${esc(l.x)}</span></div>`).join('') : '<p class="empty">No activity yet.</p>'; }
 
 let toastTimer;
 function toast(t){
   const last=[...t.steps].reverse().find(s=>s.out && byId(s.agent)?.quip);
-  $('toastTitle').textContent = `Missie voltooid · ${t.title}`;
+  $('toastTitle').textContent = `Mission completed · ${t.title}`;
   $('toastQuip').textContent = last ? byId(last.agent).quip : '';
   $('toast').hidden=false;
   $('toastView').onclick=()=>{ go('results'); openTask(t.id); $('toast').hidden=true; };
@@ -829,8 +829,8 @@ let sampleOK = true;
 const PERMANENT=['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'];
 function setSys(){
   $('sysDot').className='dot '+(sampleOK?'ok':'warn');
-  $('sysTitle').textContent = sampleOK ? 'Alle agents online' : 'Demo-modus';
-  $('sysText').textContent = sampleOK ? 'De agents schrijven live met Claude. Elke run gebruikt je eigen Claude-tegoed.' : 'Claude is hier niet beschikbaar. De agents laten voorbeeldresultaten zien voor het demomerk. Open de app in Claude voor live resultaten.';
+  $('sysTitle').textContent = sampleOK ? 'All agents online' : 'Demo mode';
+  $('sysText').textContent = sampleOK ? 'The agents write live with Claude. Every run uses your own Claude usage.' : 'Claude is not available here, so the agents show example output for the demo brand. Open the app in Claude for live results.';
 }
 function normalise(steps){
   const seen=new Set(), out=[];
@@ -838,21 +838,21 @@ function normalise(steps){
   if(out.length && out.every(s=>s.stage)){ const order=[...new Set(out.map(s=>s.stage))].sort((a,b)=>a-b); out.forEach(s=>s.stage=order.indexOf(s.stage)+1); out.sort((a,b)=>a.stage-b.stage); }
   else { let st=0; out.forEach((s,i)=>{ const prev=out[i-1]; const pair=prev && ['promoter','herald'].includes(s.agent) && ['promoter','herald'].includes(prev.agent); s.stage = pair ? st : ++st; }); }
   const g=out.find(s=>s.agent==='guardian'), maxCreate=Math.max(0,...out.filter(s=>['messenger','herald','builder','promoter'].includes(s.agent)).map(s=>s.stage));
-  if(!g && maxCreate){ out.forEach(s=>{ if(s.stage>maxCreate) s.stage++; }); out.push({agent:'guardian', task:'Check alle teksten op claims en regels', stage:maxCreate+1}); out.sort((a,b)=>a.stage-b.stage); }
+  if(!g && maxCreate){ out.forEach(s=>{ if(s.stage>maxCreate) s.stage++; }); out.push({agent:'guardian', task:'Check all copy for claims and rules', stage:maxCreate+1}); out.sort((a,b)=>a.stage-b.stage); }
   return out.slice(0,7);
 }
 function keywordPlan(text){
   const s=' '+text.toLowerCase()+' ', steps=[], has=(...w)=>w.some(x=>s.includes(x));
-  const growth = has('meer verkopen','meer omzet','groei','verkoop','lancer','launch','sell more','sales');
-  if(growth || has('onderzoek','markt','concurrent','research','waarom','usp')) steps.push({agent:'researcher',task:'Markt, doelgroep en USP’s op een rij'});
-  if(growth || has('lead','prospect','winkel','webshop','retailer','groothandel','creator','influencer','vind ')) steps.push({agent:'scout',task:'Doelgroepen en prospects in kaart brengen'});
-  if(growth || has(' ads','meta','facebook','advertentie','campagne','campaign','retargeting')) steps.push({agent:'promoter',task:'Meta Ads-campagne opzetten'});
-  if(growth || has('tiktok','reel','instagram','social','post','carrousel','content','linkedin')) steps.push({agent:'herald',task:'Social content maken'});
-  if(has('mail','e-mail','email','outreach','flow','nieuwsbrief')) steps.push({agent:'messenger',task:'E-mails schrijven'});
-  if(growth || has('landing','pagina','productpagina','one-pager','line sheet','website','bouw','conver')) steps.push({agent:'builder',task:'Landingspagina of sales asset bouwen'});
-  if(has('check','claim','compliance','mag ik','regels')) steps.push({agent:'guardian',task:'Claims en regels controleren'});
-  if(growth || has('analyse','cijfers','kpi','roas','rapport','data')) steps.push({agent:'analyst',task: growth?'Meetplan en KPI’s opstellen':'Cijfers analyseren'});
-  if(!steps.length) steps.push({agent:'researcher',task:'Opdracht uitwerken'});
+  const growth = has('meer verkopen','meer omzet','groei','verkoop','lancer','launch','sell more','sales','grow','revenue');
+  if(growth || has('onderzoek','markt','concurrent','research','market','competitor','why','usp')) steps.push({agent:'researcher',task:'Map market, audience and USPs'});
+  if(growth || has('lead','prospect','winkel','webshop','store','shop','retailer','wholesale','groothandel','creator','influencer','find ','vind ','customers')) steps.push({agent:'scout',task:'Map audiences and prospects'});
+  if(growth || has(' ads','meta','facebook','advertentie',' ad ','campagne','campaign','retargeting')) steps.push({agent:'promoter',task:'Set up the Meta Ads campaign'});
+  if(growth || has('tiktok','reel','instagram','social','post','carrousel','carousel','content','linkedin')) steps.push({agent:'herald',task:'Create social content'});
+  if(has('mail','e-mail','email','outreach','flow','nieuwsbrief','newsletter')) steps.push({agent:'messenger',task:'Write the emails'});
+  if(growth || has('landing','pagina','page','one-pager','line sheet','website','bouw','build','conver')) steps.push({agent:'builder',task:'Build the landing page or sales asset'});
+  if(has('check','claim','compliance','mag ik','can i','regels','rules')) steps.push({agent:'guardian',task:'Check claims and rules'});
+  if(growth || has('analyse','analyze','cijfers','numbers','kpi','roas','rapport','report','data')) steps.push({agent:'analyst',task: growth?'Set up the measurement plan and KPIs':'Analyse the numbers'});
+  if(!steps.length) steps.push({agent:'researcher',task:'Work out the goal'});
   const an=steps.findIndex(x=>x.agent==='analyst');
   let norm=normalise(steps.filter(x=>x.agent!=='analyst'));
   if(an>=0){ const last=Math.max(0,...norm.map(x=>x.stage)); norm.push({agent:'analyst',task:steps[an].task,stage:last+1}); }
@@ -872,13 +872,13 @@ Rules:
 - Each step gets a short concrete task (max 14 words). Give a short mission title (max 8 words). Write title and tasks in the language of the goal.
 Reply with only JSON: {"title":"...","steps":[{"agent":"researcher","task":"...","stage":1}]}
 
-Brand: ${brand.merk} — ${brand.product}
+Brand: ${brand.brand} — ${brand.product}
 Goal: ${text}`;
     try{
       const r=await sample.json(prompt,{modelTier:'quick'});
       const steps=normalise(r&&Array.isArray(r.steps)?r.steps:[]);
       if(steps.length) return {title:String(r.title||text).slice(0,90), steps};
-    }catch(e){ if(PERMANENT.includes(e.code)){ sampleOK=false; setSys(); log('Claude is niet beschikbaar op deze pagina; demo-modus aan.'); } }
+    }catch(e){ if(PERMANENT.includes(e.code)){ sampleOK=false; setSys(); log('Claude is not available on this page; demo mode on.'); } }
   }
   return keywordPlan(text);
 }
@@ -894,7 +894,7 @@ function newTask(text,forced){
   const t={id:'t'+Date.now().toString(36), request:text, title:text.slice(0,90), steps:[], status:'queue', open:false, created:Date.now(), forced:forced||null};
   if(forced) t.steps=[{agent:forced, task:text, out:'', st:'waiting', stage:1}];
   tasks.unshift(t); viewTaskId=t.id; saveTasks(); refresh();
-  log(forced?`Nieuwe taak voor ${byId(forced).name}: ${text}`:`Nieuwe missie: ${text}`);
+  log(forced?`New task for ${byId(forced).name}: ${text}`:`New mission: ${text}`);
   pump();
 }
 async function pump(){
@@ -918,14 +918,14 @@ async function pump(){
     await Promise.all(idx.map(i=>runStep(t,i)));
     await new Promise(r=>setTimeout(r,350));
   }
-  if(t.status==='run'){ t.status='done'; log(`Missie voltooid: ${t.title}`); toast(t); }
+  if(t.status==='run'){ t.status='done'; log(`Mission completed: ${t.title}`); toast(t); }
   t.steps.forEach(s=>{ if(s.st==='waiting') s.st='error'; });
   saveTasks(); running=null; refresh();
   pump();
 }
 async function playDemo(t,s,st,a,prompt){
   s.offline=true; s.prompt=prompt;
-  const full = DEMO_OUT[a.id] || 'Voorbeeldresultaat voor deze agent.';
+  const full = DEMO_OUT[a.id] || 'Example output for this agent.';
   const parts = full.split(/(\s+)/); let acc='';
   const stepN = Math.max(1, Math.ceil(parts.length/24));
   for(let k=0;k<parts.length;k+=stepN){
@@ -938,7 +938,7 @@ async function playDemo(t,s,st,a,prompt){
 async function runStep(t,i){
   const s=t.steps[i], a=byId(s.agent), st=S[a.id];
   s.st='working'; st.st='working'; st.task=s.task; st.started=Date.now(); st.words=0; refresh();
-  log(`${a.name} gestart: ${s.task}`);
+  log(`${a.name} started: ${s.task}`);
   const prompt=agentPrompt(a,t,i);
   const sample=await samplePromise;
   if(sample && sampleOK){
@@ -947,20 +947,20 @@ async function runStep(t,i){
       s.offline=false;
     }catch(e){
       if(e.code==='cancelled'){ s.out=e.text||s.out; s.st='error'; st.st='idle'; st.task=null; refresh(); return; }
-      if(PERMANENT.includes(e.code)){ sampleOK=false; setSys(); log('Claude is niet beschikbaar op deze pagina; demo-modus aan.'); if(!(await playDemo(t,s,st,a,prompt))) return; }
-      else { s.out=(e.text?e.text+'\n\n':'')+`[Onderbroken: ${e.code==='rate_limited'?'even te veel verzoeken, probeer het zo opnieuw':'de dienst gaf een fout'}]`; s.st='error'; st.st='error'; st.task=null; t.status='fail'; t.note='Onderbroken'; t.ctl?.abort(); log(`${a.name} kreeg een fout`); refresh(); return; }
+      if(PERMANENT.includes(e.code)){ sampleOK=false; setSys(); log('Claude is not available on this page; demo mode on.'); if(!(await playDemo(t,s,st,a,prompt))) return; }
+      else { s.out=(e.text?e.text+'\n\n':'')+`[Interrupted: ${e.code==='rate_limited'?'too many requests right now, try again in a moment':'the service returned an error'}]`; s.st='error'; st.st='error'; st.task=null; t.status='fail'; t.note='Interrupted'; t.ctl?.abort(); log(`${a.name} hit an error`); refresh(); return; }
     }
   } else { if(!(await playDemo(t,s,st,a,prompt))) return; }
   s.st='done'; st.st='done'; st.task=null; st.done++;
-  log(`${a.name} klaar${s.offline?' (demo)':''}`);
+  log(`${a.name} done${s.offline?' (demo)':''}`);
   saveTasks(); refresh();
 }
 function stopTask(id){
   const t=tasks.find(x=>x.id===id); if(!t) return;
-  t.status='fail'; t.note='Gestopt'; t.ctl?.abort();
+  t.status='fail'; t.note='Stopped'; t.ctl?.abort();
   t.steps.forEach(s=>{ if(s.st!=='done') s.st='error'; S[s.agent].st='idle'; S[s.agent].task=null; });
   S.navigator.st='idle'; S.navigator.task=null;
-  saveTasks(); log(`Gestopt: ${t.title}`); refresh();
+  saveTasks(); log(`Stopped: ${t.title}`); refresh();
 }
 
 let thr=null; function throttled(){ if(thr) return; thr=setTimeout(()=>{ thr=null; refresh(true); },300); }
