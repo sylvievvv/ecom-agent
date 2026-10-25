@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ecom Agent Garden: an AI team of nine agents that plans and runs e-commerce growth missions.">
+<link rel="icon" href="assets/icons/navigator.webp" type="image/webp">
+<title>Ecom Agent Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: soft lavender app shell; left sidebar nav; main area switches views (Dashboard, Agents, Resultaten, Brand Memory, Activiteit, Hoe werkt het);
+   agent detail opens as a right-hand drawer. Committed single light look: pastel tints per agent, plush 3D icons carry the personality. */
+:root{
+  --bg:#f2f0fb; --bg-2:#e9e5fa; --panel:rgba(255,255,255,.72); --solid:#ffffff; --line:#e6e1f6; --line-2:#d9d2f1;
+  --ink:#1b1530; --muted:#68628a; --faint:#a39ebd;
+  --accent:#6a3cf0; --accent-2:#8a5cf7; --accent-soft:#eee8ff;
+  --good:#1d9a62; --good-soft:#e3f6ec; --warn:#b8730d; --warn-soft:#fdf1dc; --bad:#cf4337; --bad-soft:#fde8e5;
+  --font:"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r:22px; --shadow:0 1px 2px rgba(60,40,140,.05),0 8px 28px rgba(80,60,170,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--font);font-size:14.5px;line-height:1.5;margin:0;-webkit-font-smoothing:antialiased;
+  background:radial-gradient(1200px 600px at 85% -10%, #f9eefc 0%, transparent 60%),radial-gradient(900px 500px at 10% 110%, #e9f1ff 0%, transparent 60%),var(--bg)}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,a:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+img{max-width:100%}
+
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);gap:20px;max-width:1500px;margin:0 auto;padding-inline:16px;padding-block:16px 48px;min-height:100vh}
+@media (max-width:900px){.app{grid-template-columns:minmax(0,1fr);gap:14px}}
+
+/* sidebar */
+.sb{position:sticky;top:calc(16px + env(safe-area-inset-top,0px));align-self:start;background:var(--panel);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.9);border-radius:26px;box-shadow:var(--shadow);padding:20px 14px;display:flex;flex-direction:column;gap:18px;min-height:calc(100vh - 32px)}
+.logo{display:flex;gap:12px;align-items:center;padding:4px 8px 6px}
+.logo b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.logo span{display:block;font-size:17px;font-weight:600;color:var(--muted);letter-spacing:-.01em}
+.nav{display:grid;gap:4px}
+.nav button{display:flex;gap:12px;align-items:center;border:none;background:none;border-radius:14px;padding:11px 12px;font-weight:600;color:#4a4566;text-align:left;font-size:15px}
+.nav button svg{flex:none;color:#7d77a0}
+.nav button:hover{background:rgba(106,60,240,.06)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.nav button[aria-current="page"] svg{color:var(--accent)}
+.nav .cnt{margin-left:auto;font-size:11.5px;background:var(--accent);color:#fff;border-radius:99px;padding:0 7px;font-weight:700}
+.sb-card{margin-top:auto;background:linear-gradient(160deg,#fff 0%,#f4f0ff 100%);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:8px}
+.sb-card b{font-size:15px}
+.sb-card p{margin:0;font-size:13px;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--faint);flex:none}
+.dot.ok{background:var(--good);box-shadow:0 0 0 4px var(--good-soft)} .dot.warn{background:var(--warn);box-shadow:0 0 0 4px var(--warn-soft)}
+@media (max-width:900px){
+  .sb{position:static;min-height:0;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px;gap:10px;border-radius:20px}
+  .logo{padding:0 6px} .logo span{font-size:14px} .logo b{font-size:16px}
+  .nav{display:flex;overflow-x:auto;width:100%;gap:4px;padding-bottom:2px}
+  .nav button{white-space:nowrap;padding:8px 12px;font-size:14px}
+  .sb-card{display:none}
+}
+
+/* main */
+.main{min-width:0;display:grid;gap:22px;align-content:start}
+.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-start;justify-content:space-between}
+.top h1{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-.03em;margin:0;line-height:1.08;text-wrap:balance}
+.top p{margin:6px 0 0;color:var(--muted);font-size:clamp(15px,1.4vw,18px);max-width:62ch}
+.search{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid rgba(255,255,255,.95);box-shadow:var(--shadow);border-radius:99px;padding:10px 18px;min-width:min(340px,100%)}
+.search input{border:none;background:none;font:inherit;font-size:14.5px;color:var(--ink);width:100%;min-width:0}
+.search input:focus{outline:none}
+.search:focus-within{box-shadow:0 0 0 3px var(--accent-soft),var(--shadow)}
+.search svg{color:var(--faint);flex:none}
+
+.panel{background:var(--panel);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.95);border-radius:26px;box-shadow:var(--shadow);min-width:0}
+.sec-h{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between}
+.sec-h h2{font-size:clamp(22px,2.4vw,30px);font-weight:800;letter-spacing:-.025em;margin:0}
+.sec-h p{margin:4px 0 0;color:var(--muted);font-size:15.5px}
+.btn{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--solid);border-radius:99px;padding:10px 18px;font-weight:700;font-size:14.5px;color:var(--accent);box-shadow:0 1px 2px rgba(60,40,140,.06)}
+.btn:hover{border-color:var(--line-2)}
+.btn-primary{display:inline-flex;gap:8px;align-items:center;border:none;border-radius:99px;padding:12px 22px;font-weight:700;font-size:15px;color:#fff;background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);box-shadow:0 6px 18px rgba(106,60,240,.28)}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-primary:disabled{opacity:.55;cursor:default}
+
+/* command */
+.cmd{padding:22px;display:grid;gap:14px}
+.cmd label{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.cmd form{display:flex;gap:10px;flex-wrap:wrap}
+.cmd input{flex:1 1 320px;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--solid);border:1px solid var(--line);border-radius:99px;padding:13px 20px}
+.cmd input::placeholder{color:var(--faint)}
+.cmd input:focus{outline:none;border-color:#c9b8fb;box-shadow:0 0 0 4px var(--accent-soft)}
+.qa{display:flex;flex-wrap:wrap;gap:8px}
+.qa button{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--solid);border-radius:99px;padding:6px 14px 6px 6px;font-size:13.5px;font-weight:600;color:#4a4566}
+.qa button:hover{border-color:#cdbffb;color:var(--accent)}
+.qa img{width:26px;height:26px}
+
+/* how it works */
+.how{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;padding:16px}
+@media (max-width:1100px){.how{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.how{grid-template-columns:minmax(0,1fr)}}
+.hs{position:relative;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.6) 100%);border:1px solid #fff;border-radius:20px;padding:16px 16px 12px;display:grid;gap:8px;align-content:start;min-width:0}
+.hs .h{display:flex;gap:10px;align-items:center}
+.hs .n{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;flex:none}
+.hs b{font-size:15.5px;line-height:1.2;letter-spacing:-.01em}
+.hs p{margin:0;font-size:13.5px;color:var(--muted)}
+.hs img{width:112px;height:112px;justify-self:center;margin-top:4px}
+.hs .quote{font-size:13px;background:var(--solid);border:1px solid var(--line);border-radius:14px;padding:8px 10px;color:#4a4566}
+
+/* workflow */
+.wf{padding:22px;display:grid;gap:16px}
+.wf-h{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.wf-h h3{margin:0;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.wf-h .sub{margin:2px 0 0;color:var(--muted);font-size:14px;overflow-wrap:anywhere}
+.mission{display:grid;gap:6px}
+.mission .bar{height:10px;border-radius:99px;background:var(--bg-2);overflow:hidden}
+.mission .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#c05cf7);transition:width .5s}
+.mission .lbls{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mission .lbls b{color:var(--ink)}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
+.fs{display:grid;justify-items:center;gap:4px;text-align:center;background:var(--solid);border:1px solid var(--line);border-radius:18px;padding:10px 12px 10px;min-width:104px;position:relative}
+.fs img{width:58px;height:58px}
+.fs b{font-size:13.5px}
+.fs.working{border-color:#c9b8fb;box-shadow:0 0 0 4px var(--accent-soft)}
+.fs.waiting{opacity:.7}
+.grp{display:flex;gap:8px;border:1.5px dashed #cfc4f7;border-radius:22px;padding:6px;align-items:stretch;position:relative}
+.grp::before{content:"tegelijk";position:absolute;top:-10px;left:14px;background:var(--bg);padding:0 6px;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;border-radius:6px}
+.arrow{align-self:center;color:#b6acd9}
+.next{display:flex;gap:10px;align-items:center;background:var(--accent-soft);border-radius:16px;padding:10px 14px;font-size:14px;color:#3d2a8a}
+.next b{font-weight:700}
+.live{background:var(--solid);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.live-h{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.live-h b{color:var(--ink)}
+.live-b{padding:14px 16px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto;line-height:1.6}
+.live-b strong{font-weight:700}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px;white-space:nowrap;background:#f2f0f8;color:var(--muted)}
+.st i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.st.working,.st.thinking{background:var(--accent-soft);color:var(--accent)} .st.working i,.st.thinking i{animation:pulse 1.3s infinite}
+.st.done{background:var(--good-soft);color:var(--good)} .st.waiting{background:var(--warn-soft);color:var(--warn)} .st.error{background:var(--bad-soft);color:var(--bad)}
+@keyframes pulse{50%{opacity:.3}}
+
+/* agent cards: compact (dashboard) */
+.agrid,.bgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+@media (max-width:1180px){.agrid,.bgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.agrid,.bgrid{grid-template-columns:minmax(0,1fr)}}
+.ac{position:relative;display:grid;grid-template-columns:96px minmax(0,1fr);grid-template-rows:auto 1fr auto auto auto;gap:4px 12px;min-height:228px;padding:14px 14px 12px;border-radius:var(--r);border:1px solid rgba(255,255,255,.95);background:linear-gradient(150deg,var(--tint) 0%,#fff 75%);box-shadow:var(--shadow);min-width:0;text-align:left}
+.ac img{width:96px;height:96px;grid-column:1;grid-row:1 / span 3;align-self:center}
+.ac .nm,.ac .ds{grid-column:2}
+.ac .ds{align-self:start}
+.ac .stp{position:absolute;top:12px;right:12px}
+.ac .nm{padding-right:84px;font-size:17px;font-weight:800;letter-spacing:-.015em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ac .ds{font-size:13.5px;color:#57527a;line-height:1.45}
+.ac .open{grid-column:1 / -1;margin-top:8px;border:none;border-radius:99px;padding:9px 14px;background:var(--btn);color:var(--c);font-weight:700;font-size:14px;display:flex;justify-content:center;gap:8px;align-items:center}
+.ac .open:hover{filter:brightness(.97)}
+.ac.dim{opacity:.55}
+.ac.on{box-shadow:0 0 0 3px var(--btn),var(--shadow)}
+.ac .badge{position:absolute;top:10px;left:10px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
+.orch{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;color:#b26a00;background:#ffe9bf;border-radius:99px;padding:2px 9px}
+
+/* agent cards: big (agents view) */
+.bc{position:relative;display:grid;grid-template-rows:auto 1fr auto auto auto;padding:14px;border-radius:26px;border:1px solid rgba(255,255,255,.95);background:linear-gradient(160deg,var(--tint) 0%,#fff 80%);box-shadow:var(--shadow);min-width:0}
+.bc .hd{display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px;align-items:start}
+.bc img{width:150px;height:150px;margin:-4px 0 0 -4px}
+.bc .nm{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-top:40px;display:grid;gap:6px;justify-items:start}
+.bc .ds{font-size:14px;color:#57527a;margin:6px 0 14px;padding-left:4px}
+.bc .open{border:none;border-radius:99px;padding:12px 16px;background:var(--btn);color:var(--c);font-weight:800;font-size:15px;display:flex;justify-content:center;gap:8px;align-items:center}
+.bc .orch{position:absolute;top:14px;right:14px}
+
+.ac .how-btn,.bc .how-btn{border:none;background:none;padding:0;color:var(--c);font-weight:700;font-size:13px;display:inline-flex;gap:5px;align-items:center;justify-self:start}
+.bc .how-btn{margin:-6px 0 12px 4px}
+.ac .how-btn{grid-column:2;margin-top:2px}
+.howbox{grid-column:1 / -1;background:rgba(255,255,255,.85);border:1px solid #fff;border-radius:16px;padding:10px 12px;display:grid;gap:8px;font-size:13.5px;margin-top:8px}
+.bc .howbox{margin:0 0 12px}
+.howbox div b{display:block;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:1px}
+.howbox div{color:#3f3a5c}
+.map{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:18px 20px}
+.map span.m{background:var(--solid);border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-weight:700;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.map span.m img{width:24px;height:24px}
+.map .ar{color:#b6acd9}
+.try{padding:22px;display:grid;gap:12px;background:linear-gradient(135deg,#f6f0ff 0%,#fff 60%)}
+.try h3{margin:0;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.try form{display:flex;gap:10px;flex-wrap:wrap}
+.try input{flex:1 1 300px;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--solid);border:1px solid var(--line);border-radius:99px;padding:13px 20px}
+.try input:focus{outline:none;border-color:#c9b8fb;box-shadow:0 0 0 4px var(--accent-soft)}
+.check{padding:20px 22px;display:grid;gap:10px}
+.check h3{margin:0 0 4px;font-size:18px;font-weight:800}
+.ck{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--solid);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.ck .bx{width:28px;height:28px;border-radius:50%;border:2px solid var(--line-2);display:grid;place-items:center;color:#fff}
+.ck.done .bx{background:var(--good);border-color:var(--good)}
+.ck b{display:block;font-size:14.5px} .ck span{font-size:13px;color:var(--muted)}
+.ck.done b{text-decoration:line-through;text-decoration-color:#9fd6bb;color:var(--muted)}
+.ck button{font-size:13px;padding:6px 14px}
+.two{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px}
+@media (max-width:1000px){.two{grid-template-columns:minmax(0,1fr)}}
+/* results, brand, activity */
+.list{display:grid;gap:12px;padding:18px}
+.task{background:var(--solid);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.task .t{font-weight:700;font-size:15px;overflow-wrap:anywhere}
+.task .m{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.task .acts{display:flex;gap:6px;flex-wrap:wrap}
+.task .acts button,.res .acts button{font-size:13px;padding:5px 12px}
+details summary{cursor:pointer;font-size:14px;font-weight:700;color:var(--accent);list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"▸ "} details[open] summary::before{content:"▾ "}
+.res{border-top:1px solid var(--line);margin-top:10px;padding-top:10px;display:grid;gap:8px}
+.res .who{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:700}
+.res .who img{width:30px;height:30px}
+.res .who small{font-weight:500;color:var(--muted)}
+.res .txt{font-size:13.5px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:360px;overflow:auto;background:#faf9fe;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.res .note{font-size:12.5px;color:var(--warn)}
+.res .acts{display:flex;gap:6px}
+.empty{color:var(--muted);margin:0;font-size:14.5px}
+.empty b{color:var(--ink)}
+form.brand{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;padding:20px}
+form.brand label{display:grid;gap:6px;font-size:13px;font-weight:700;color:#4a4566}
+form.brand input,form.brand textarea{font:inherit;font-size:14.5px;font-weight:500;color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--solid);width:100%}
+form.brand textarea{resize:vertical;min-height:70px}
+form.brand input:focus,form.brand textarea:focus{outline:none;border-color:#c9b8fb;box-shadow:0 0 0 3px var(--accent-soft)}
+.log{display:grid;gap:6px;padding:18px;font-size:13.5px}
+.log div{display:grid;grid-template-columns:52px 1fr;gap:10px;background:var(--solid);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.log time{color:var(--faint);font-variant-numeric:tabular-nums;font-weight:600}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(30,20,70,.22);backdrop-filter:blur(2px);z-index:8}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:#fbfaff;z-index:9;box-shadow:-20px 0 60px rgba(40,20,110,.18);overflow:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 22px calc(28px + env(safe-area-inset-bottom,0px));display:grid;gap:16px;align-content:start;border-radius:28px 0 0 28px}
+@media (max-width:520px){.drawer{border-radius:0}}
+.dr-hd{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:12px;align-items:center;background:linear-gradient(150deg,var(--tint) 0%,#fff 85%);border-radius:24px;padding:12px}
+.dr-hd img{width:120px;height:120px}
+.dr-hd h3{margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em}
+.dr-hd p{margin:2px 0 8px;color:var(--muted);font-size:14px}
+.x{align-self:start;border:none;background:#fff;border-radius:50%;width:36px;height:36px;font-size:20px;line-height:1;color:var(--muted);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.drawer p{margin:0}
+.lbl{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.drawer ul{margin:0;padding-left:18px;display:grid;gap:3px}
+.box{background:var(--solid);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px}
+.box.out{white-space:pre-wrap;overflow-wrap:anywhere;max-height:180px;overflow:auto;font-size:13.5px}
+.assign{display:flex;gap:8px}
+.assign input{flex:1;min-width:0;font:inherit;font-size:14.5px;border:1px solid var(--line);border-radius:99px;padding:10px 16px;background:#fff;color:var(--ink)}
+.assign input:focus{outline:none;border-color:#c9b8fb;box-shadow:0 0 0 3px var(--accent-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 12px;font-size:13px;font-weight:600;color:#4a4566;text-align:left}
+.chip:hover{border-color:#cdbffb;color:var(--accent)}
+
+.toast{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px 16px;display:grid;gap:4px;box-shadow:0 18px 50px rgba(60,40,150,.2);max-width:min(400px,calc(100% - 32px));z-index:10}
+.toast .tt{display:flex;gap:10px;align-items:center;font-weight:800;font-size:14.5px}
+.toast .q{font-size:13px;color:var(--muted);font-style:italic}
+.toast .ta{display:flex;gap:6px;margin-top:6px}
+.toast .ta button{font-size:13px;padding:6px 14px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sb" aria-label="Hoofdmenu">
+    <div class="logo">
+      <svg width="42" height="42" viewBox="0 0 42 42" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a5cf7"/><stop offset="1" stop-color="#5b2ee6"/></linearGradient></defs><circle cx="12" cy="12" r="9" fill="url(#lg)"/><circle cx="30" cy="12" r="9" fill="url(#lg)" opacity=".85"/><circle cx="12" cy="30" r="9" fill="url(#lg)" opacity=".85"/><rect x="21" y="21" width="18" height="18" rx="9" fill="url(#lg)"/></svg>
+      <div><b>Ecom</b><span>Agent Garden</span></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button type="button" data-view="dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Dashboard</button>
+      <button type="button" data-view="agents"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="7" cy="7" r="4"/><circle cx="17" cy="7" r="4"/><circle cx="7" cy="17" r="4"/><circle cx="17" cy="17" r="4"/></svg>Agents</button>
+      <button type="button" data-view="brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Brand Memory</button>
+      <button type="button" data-view="how"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h6a2 2 0 0 1 2 2V20a1.6 1.6 0 0 0-1.6-1.6H4zM20 5.5h-6a2 2 0 0 0-2 2V20a1.6 1.6 0 0 1 1.6-1.6H20z"/></svg>Hoe werkt het?</button>
+      <button type="button" data-view="results"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V12M10 20V6M15 20v-5M20 20V9"/></svg>Resultaten<span class="cnt" id="resCount" hidden></span></button>
+      <button type="button" data-view="activity"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Activiteit</button>
+    </nav>
+    <div class="sb-card">
+      <div style="display:flex;gap:10px;align-items:center"><span class="dot" id="sysDot"></span><b id="sysTitle">Agents verbinden…</b></div>
+      <p id="sysText">Even geduld.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div><h1 id="pageTitle">Dashboard</h1><p id="pageSub"></p></div>
+      <label class="search" for="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M16 16l5 5"/></svg><input id="search" type="search" placeholder="Zoek een agent…" autocomplete="off"></label>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section data-v="dashboard" class="vw">
+      <div style="display:grid;gap:22px">
+        <section class="panel cmd">
+          <label for="taskInput">Wat wil je bereiken?</label>
+          <form id="askForm"><input id="taskInput" autocomplete="off" placeholder="Ik wil meer verkopen met mijn supplement"><button class="btn-primary" type="submit" id="runBtn">Start met Navigator <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+          <div class="qa" id="quick"></div>
+        </section>
+
+        <section class="panel wf" id="wfPanel" hidden>
+          <div class="wf-h"><div style="min-width:0"><h3 id="wfTitle"></h3><p class="sub" id="wfSub"></p></div><div style="display:flex;gap:8px;align-items:center"><span class="st" id="wfPill"><i></i><span></span></span><button type="button" class="btn" id="stopBtn" hidden style="padding:6px 14px;font-size:13.5px">Stop</button></div></div>
+          <div class="mission"><div class="bar"><i id="misBar" style="width:0%"></i></div><div class="lbls"><span id="misSteps"></span><b id="misPct"></b></div></div>
+          <div class="flow" id="flow"></div>
+          <div class="next" id="nextStep" hidden></div>
+          <div class="live" id="live" hidden><div class="live-h"><span id="liveWho"></span><button type="button" class="btn" id="liveOpen" style="padding:5px 12px;font-size:13px">Alle resultaten</button></div><div class="live-b" id="liveBody"></div></div>
+        </section>
+
+
+        <section style="display:grid;gap:14px">
+          <div class="sec-h"><div><h2>Onze AI Agents</h2><p>9 gespecialiseerde agents die samen jouw e-commerce groei versnellen.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn" data-go="agents">Bekijk alle agents</button><button type="button" class="btn-primary" id="goNav">Start met Navigator <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
+          <div class="agrid" id="dashAgents"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- AGENTS -->
+    <section data-v="agents" class="vw" hidden><div class="bgrid" id="bigAgents"></div><p class="empty" id="noMatch" hidden>Geen agent gevonden. Probeer een ander woord.</p></section>
+
+    <!-- RESULTS -->
+    <section data-v="results" class="vw panel" hidden><div class="list" id="taskList"></div></section>
+
+    <!-- BRAND -->
+    <section data-v="brand" class="vw panel" hidden><form class="brand" id="brandForm"></form></section>
+
+    <!-- ACTIVITY -->
+    <section data-v="activity" class="vw panel" hidden><div class="log" id="log"></div></section>
+
+    <!-- HOW -->
+    <section data-v="how" class="vw" hidden><div style="display:grid;gap:22px">
+      <div class="panel"><div class="how" id="howStrip2"></div></div>
+      <div class="panel"><div class="map" id="mentalMap"></div></div>
+      <div class="two">
+        <section class="panel try"><h3>Probeer het zelf</h3><p class="empty">De snelste manier om het te leren: geef een doel en kijk hoe het team samenwerkt.</p>
+          <form id="tryForm"><input id="tryInput" autocomplete="off" value="Maak een campagne voor mijn product" aria-label="Je doel"><button type="submit" class="btn-primary">Start workflow <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
+          <div class="qa" id="tryQuick"></div></section>
+        <section class="panel check"><h3>Je eerste missie</h3><div id="checklist"></div></section>
+      </div>
+    </div></section>
+  </main>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Agent details"></aside>
+<div class="toast" id="toast" hidden role="status">
+  <div class="tt"><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#1d9a62"/><path d="M6.5 11.3l3 3 6-6.3" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="toastTitle"></span></div>
+  <div class="q" id="toastQuip"></div>
+  <div class="ta"><button type="button" class="btn-primary" id="toastView">Bekijk resultaten</button><button type="button" class="btn" id="toastClose">Sluiten</button></div>
+</div>
+
+<script>
+const ICON = {"herald": "assets/icons/herald.webp", "navigator": "assets/icons/navigator.webp", "analyst": "assets/icons/analyst.webp", "promoter": "assets/icons/promoter.webp", "bubble": "assets/icons/bubble.webp", "builder": "assets/icons/builder.webp", "cluster": "assets/icons/cluster.webp", "messenger": "assets/icons/messenger.webp", "guardian": "assets/icons/guardian.webp", "researcher": "assets/icons/researcher.webp", "scout": "assets/icons/scout.webp"};
+const ico = (id, size, alt='') => `<img src="${ICON[id]}" width="${size}" height="${size}" alt="${alt}" loading="lazy" decoding="async">`;
+
+/* ================= Agents ================= */
+const RULES = `You are part of an AI team for an e-commerce brand. Answer in the language of the task (default Dutch).
+Rules:
+1. Never invent data, figures, reviews, results, names, email addresses or quotes. If something is missing, write [CHECK: ...].
+2. Only make product claims that are in the brand brief. No "cures", "guaranteed results", "100% free of chemicals", miracle or before/after promises.
+3. Respect EU consumer law (no misleading claims, honest discounts), and platform ad policies.
+4. You cannot browse the web. Say so where it matters and give concrete search steps or sources to verify instead.
+5. You deliver drafts; a human publishes and sends.
+6. End with one short line "Open vragen:" (max 3).
+Formatting: short headings in **bold**, bullet lists with "- ". Be concise and practical.`;
+
+const AG = [
+ {id:'navigator', name:'Navigator', role:'Regie & planning', c:'#c26a00', tint:'#fff3df', btn:'#ffe8c2',
+  does:'Plant welke agents aan je opdracht werken en in welke volgorde, en maakt een complete workflow.',
+  about:'De centrale agent. Je geeft een doel, de Navigator stelt het team samen, zet de stappen in de juiste volgorde en laat agents tegelijk werken waar dat kan.',
+  gives:['Een route langs maximaal 7 stappen','Een korte opdracht per agent','Promoter en Herald tegelijk waar dat kan'],
+  ex:['Ik wil meer verkopen met mijn nieuwe huidverzorgingslijn','Lanceer onze nieuwe productbundel']},
+ {id:'scout', name:'Scout', role:'Prospects & doelgroepen', c:'#c42d8f', tint:'#fde8f5', btn:'#fbd6ee',
+  does:'Bedenkt waar en hoe je de juiste klanten, winkels en creators vindt, en levert een concreet zoekplan.',
+  about:'Zoekt uit wie je moet bereiken: klantsegmenten, webshops en winkels die je product kunnen verkopen, creators en de beslissers daarachter. Kan niet live zoeken, dus levert een zoekplan dat je zelf uitvoert.',
+  gives:['Klantsegmenten en koopmotieven','Profiel van ideale retailers, groothandels of creators','8 tot 12 concrete zoekopdrachten en bronnen','Functietitels van beslissers'],
+  ex:['Vind conceptstores en webshops die ons product kunnen verkopen','Welke creators passen bij ons merk?'],
+  quip:'Scout kijkt verdacht trots.',
+  brief:`ROLE: prospect and audience researcher for an e-commerce brand. TASK: work out who to reach. For B2C: 3-4 customer segments with buying motives, objections and where they hang out. For B2B (retailers, wholesale, marketplaces, creators/affiliates): ideal partner profile, 8-12 concrete searches and sources (Google search strings, Instagram/TikTok hashtags, marketplace filters, wholesale platforms, trade fairs, store directories), signals that a partner is a good fit, and decision-maker job titles. Only name real companies or people if you are sure they exist, always marked [CHECK]. Never guess email addresses.`},
+ {id:'researcher', name:'Researcher', role:'Markt & concurrentie', c:'#5b3fe0', tint:'#eee9ff', btn:'#e0d8ff',
+  does:'Vertaalt markt- en klantdata naar heldere boodschappen per doelgroep, en zegt wat je niet mag claimen.',
+  about:'Zet je product, de markt en de concurrentie op een rij en vertaalt dat naar sterke boodschappen. Bewaakt welke claims je wel en niet kunt maken.',
+  gives:['Kernboodschap en USP’s per doelgroep','Bezwaren van klanten en hoe je ze weerlegt','Concurrentiepatronen en kansen','Welke claims wel en niet kunnen'],
+  ex:['Waarom zouden klanten ons kiezen boven de concurrent?','Welke bezwaren hebben kopers van natuurlijke huidverzorging?'],
+  quip:'Researcher heeft drie voetnoten toegevoegd waar niemand om vroeg.',
+  brief:`ROLE: market and product researcher for an e-commerce brand. TASK: deliver usable insight. Include: core message in one sentence per audience; top 3 USPs with the proof needed; customer objections and how to answer them; competitor patterns (general knowledge only, or competitors named by the user; mark specifics [CHECK]); pricing and positioning notes; which claims are safe and which are not; 5 messaging angles with an example line.`},
+ {id:'messenger', name:'Messenger', role:'E-mail & outreach', c:'#0b8aa6', tint:'#e1f6fa', btn:'#cbeff6',
+  does:'Schrijft korte, persoonlijke e-mailreeksen en follow-ups die echt resultaat opleveren.',
+  about:'Schrijft e-mails die gelezen worden: B2B-outreach naar winkels en creators, en e-mailflows voor klanten zoals welkom, verlaten winkelwagen en na aankoop.',
+  gives:['Outreach-reeks van 3 tot 4 mails','Klantflows: welkom, winkelwagen, na aankoop','3 onderwerpregels per mail','AVG-proof, met afmeldregel'],
+  ex:['Mail aan conceptstores om ons merk in te kopen','Flow voor verlaten winkelwagens'],
+  quip:'Messenger heeft de neiging om een emoji toe te voegen weerstaan.',
+  brief:`ROLE: e-commerce email copywriter. TASK: write the email(s) asked. B2B outreach default: 4-step sequence (day 0 opener with a specific hook, day 3 value, day 7 new angle or social proof from the brief, day 14 short break-up), max 100 words each. B2C flows: welcome, abandoned cart or post-purchase, each email with goal, timing, subject line, preview text and body. Always 3 subject lines per email (max 7 words), placeholders like [voornaam], one clear CTA, unsubscribe line. No fake urgency, no invented reviews.`},
+ {id:'herald', name:'Herald', role:'Social content', c:'#d65a0a', tint:'#fff0e3', btn:'#ffe0c6',
+  does:'Maakt posts voor Instagram, TikTok, LinkedIn en X, scripts voor Reels, carrousels en een contentkalender.',
+  about:'Maakt organische content voor Instagram, TikTok, LinkedIn en X: scroll-stoppende hooks, productdemo’s, UGC-stijl video’s en carrousels.',
+  gives:['Reel- en TikTok-scripts met hook en shotlist','Carrousels, slide voor slide','Captions en hashtags per kanaal','Contentkalender per kanaal'],
+  ex:['3 TikTok-scripts voor onze bestseller','Instagram-carrousel: zo gebruik je ons product'],
+  quip:'Herald denkt alweer na over hashtags.',
+  brief:`ROLE: social media strategist and creator for an e-commerce brand. TASK: create organic content for the channels asked (default Instagram and TikTok). TikTok/Reels: 15-40 second script with a hook in the first 2 seconds, shot list, on-screen text, spoken lines, caption, 3-5 hashtags, sound idea. Instagram carousel: text per slide (max 8 slides) plus caption. LinkedIn/X if asked. Mix formats: product demo, UGC-style review (no fake testimonials: write it as a brief for a real customer or creator), behind the scenes, how-to, offer. For a calendar: date, channel, format, topic, goal. Influencer content must be marked as advertising (#ad / #samenwerking).`},
+ {id:'promoter', name:'Promoter', role:'Meta Ads', c:'#cc2457', tint:'#fde7ee', btn:'#fbd2e0',
+  does:'Maakt Meta Ads-campagnes voor Facebook en Instagram, met doelgroepen, advertentievarianten, budget en een testplan.',
+  about:'Zet Meta Ads-campagnes op voor Facebook en Instagram: doelgroepen, creatives, advertentieteksten, budgetverdeling en A/B-tests. Guardian checkt elke advertentie.',
+  gives:['Campagne-opzet: doel, structuur, budgetverdeling','Doelgroepen: breed, interesses, lookalikes, retargeting','3 tot 5 advertentievarianten met hooks','Creatieve briefing voor beeld of 9:16-video','KPI’s: ROAS, CPA, CTR, CPM'],
+  ex:['Meta Ads-campagne voor onze Black Friday-actie','Retargetingcampagne voor bezoekers die niet kochten'],
+  quip:'Promoter heeft al drie A/B-tests in gedachten.',
+  brief:`ROLE: Meta Ads specialist for e-commerce (Facebook and Instagram). TASK: plan and write the campaign. Deliver: objective and structure (Advantage+ shopping or manual: campaign / ad sets / ads); audiences per ad set (broad, interests, lookalikes, retargeting windows); budget split and a simple test plan (what to test first: hook, creative, offer); 3-5 ad variants (primary text max 125 characters, headline max 40, description, CTA button); a creative brief per variant (static, carousel or 9:16 video with a hook in the first 2 seconds, UGC style where it fits); KPIs and decision rules (ROAS, CPA, CTR, CPM, when to scale or stop). Never invent budgets, prices or results the user did not give; propose ranges marked [CHECK]. Follow Meta ad policies: no before/after, no implying personal attributes ("Do you have acne?"), no misleading discounts.`},
+ {id:'builder', name:'Builder', role:'Pagina’s & sales assets', c:'#3a8a1c', tint:'#ebf8e2', btn:'#d6f1c5',
+  does:'Schrijft landingspagina’s, productpagina’s, nieuwsbrieven en one-pagers die converteren.',
+  about:'Schrijft de teksten voor landingspagina’s, productpagina’s, nieuwsbrieven en sales assets zoals een line sheet voor winkels.',
+  gives:['Landings- of productpagina: kop, voordelen, bewijs, CTA','Nieuwsbrief tot 400 woorden','One-pager of line sheet voor retailers','FAQ en bezwaren-sectie'],
+  ex:['Landingspagina voor onze nieuwe productbundel','One-pager voor winkels die ons willen inkopen'],
+  quip:'Builder ruimt de steigers op.',
+  brief:`ROLE: conversion copywriter for e-commerce. TASK: build the requested asset. Landing or product page: headline (one promise), subheadline, 3-5 benefits, how it works, social proof section (only real proof from the brief or a [CHECK] placeholder), FAQ with objections, offer and CTA, plus SEO title and meta description. Newsletter: subject lines, preview text, sections, CTA, max 400 words. Retailer one-pager / line sheet: brand story, products with [price] placeholders, margins and terms from the brief, ordering info.`},
+ {id:'guardian', name:'Guardian', role:'Claims & compliance', c:'#1f5bd8', tint:'#e6eeff', btn:'#d2e0ff',
+  does:'Checkt teksten en advertenties op riskante claims, Europese regels en de advertentieregels van Meta en TikTok.',
+  about:'Leest alles voordat het online gaat: productclaims, kortingen, influencer-markering, privacy en de advertentieregels van Meta en TikTok. Hoeft nooit handmatig gestart te worden. Vervangt geen jurist.',
+  gives:['Oordeel: GOED, AANPASSEN of STOP','Per probleem een herschreven zin','Wat je nog moet laten checken'],
+  ex:['Check: "Verwijdert rimpels in 7 dagen, 100% natuurlijk"','Mag ik "was €49, nu €29" in mijn advertentie zetten?'],
+  quip:'Guardian heeft elk woord gelezen. Twee keer.',
+  brief:`ROLE: critical compliance reviewer for e-commerce marketing in the EU/NL. Check against: misleading claims (Unfair Commercial Practices Directive), product-specific rules (cosmetics claims criteria, health and nutrition claims for food and supplements, medical-device claims), green claims, price and discount rules (show the lowest price of the previous 30 days for discounts), influencer disclosure (#ad / #samenwerking), GDPR consent for email, and Meta/TikTok ad policies (before/after, personal attributes, health). TASK: review the drafts from earlier steps, or the text in the task. Deliver: verdict GOED / AANPASSEN / STOP, then per issue: fragment, problem, risk (laag/midden/hoog), suggested rewrite. When in doubt, AANPASSEN. You do not replace legal counsel; say what to have checked.`},
+ {id:'analyst', name:'Analyst', role:'Data & optimalisatie', c:'#5a2fe0', tint:'#eee8ff', btn:'#dfd5ff',
+  does:'Maakt van campagne- en salesdata een duidelijk rapport met aanbevelingen voor optimalisatie en groei.',
+  about:'Zet je campagne- en verkoopcijfers om in een helder rapport met concrete verbeterpunten. Gebruikt alleen cijfers die jij geeft; zonder cijfers maakt hij een meetplan.',
+  gives:['Samenvatting in 3 zinnen','KPI-tabel: ROAS, CPA, conversie, AOV','3 optimalisaties met verwachte impact','Of: een meetplan met KPI’s en doelen'],
+  ex:['Analyseer: €2.400 spend, €7.900 omzet, 212 orders','Welke KPI’s moet ik volgen voor mijn lancering?'],
+  quip:'Analyst heeft de cijfers voor de zekerheid nog eens nagerekend.',
+  brief:`ROLE: e-commerce data analyst. TASK: analyse the numbers given, or write a measurement plan if there are none. Only use figures from the task; missing = "geen data"; compute ratios yourself and show the formula (ROAS = revenue / spend, CPA = spend / orders, AOV = revenue / orders, conversion rate = orders / sessions). Deliver: 3-sentence summary, KPI table (KPI, target, result, change), what is working and what is not, 3 optimisations with expected impact and how to test them.`}
+];
+const HOWTO = {
+ navigator:['Je doel in één zin; hij leest je Brand Memory zelf','Een workflow: welke agents, in welke volgorde, en wat ieder doet','Altijd als startpunt, zeker als je niet weet welke agent je nodig hebt'],
+ scout:['Wat je verkoopt en wie je zoekt: klanten, winkels of creators','Doelgroepsegmenten, zoekopdrachten, bronnen en beslissers','Aan het begin, als je wilt weten wie je moet bereiken'],
+ researcher:['Product, doelgroep en eventueel concurrenten','USP’s, bezwaren, kernboodschap en welke claims wel en niet kunnen','Vóór je content of advertenties maakt'],
+ messenger:['Wie je mailt en wat je ermee wilt bereiken','Een mailreeks of klantflow met onderwerpregels en call-to-action','Na Scout voor outreach, of voor je webshopflows'],
+ herald:['Product, kanaal en het doel van de content','Scripts, carrousels, captions, hashtags en een contentkalender','Na Researcher, zodat de boodschap klopt'],
+ promoter:['Product, doelgroep en campagnedoel; budget als je het weet','Doelgroepen, creatives, copy, budgetverdeling en een testplan','Nadat Researcher je doelgroep en boodschap heeft onderzocht'],
+ builder:['Welke pagina of asset, voor welk product en welk aanbod','Complete paginatekst: kop, voordelen, bewijs, FAQ en call-to-action','Vóór je advertenties live zet, zodat ze ergens naartoe leiden'],
+ guardian:['Een tekst of advertentie; in een workflow pakt hij de eerdere stappen zelf','Oordeel GOED, AANPASSEN of STOP, met herschreven zinnen','Automatisch vóór alles wat online gaat; je hoeft hem nooit zelf te starten'],
+ analyst:['Je cijfers: spend, omzet, orders en sessies; of niets voor een meetplan','KPI-overzicht, wat werkt en wat niet, en 3 verbeteringen','Na je campagne, of vooraf om te bepalen wat je gaat meten']
+};
+const howBox = a => { const [g,k,w]=HOWTO[a.id]; return `<div><b>Wat geef je mee?</b>${esc(g)}</div><div><b>Wat krijg je?</b>${esc(k)}</div><div><b>Wanneer gebruiken?</b>${esc(w)}</div>`; };
+const infoSvg = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg>';
+const openInfo = new Set();
+const DEMO_OUT = {
+ researcher:`**Kernboodschap**
+- Klant: "Natuurlijke verzorging die je huid zacht en verzorgd houdt, in een fles die je navult."
+- Retailer: "Een bestseller uit Benelux-conceptstores met een marge van 45 tot 50%."
+
+**Top 3 USP's**
+- Navulbare glazen verpakking (bewijs: foto van het navulsysteem)
+- Vegan en gemaakt in Nederland (bewijs: certificaat [CHECK])
+- Bestseller in conceptstores (bewijs: lijst met verkooppunten [CHECK])
+
+**Bezwaren van klanten**
+- "Olie op mijn gezicht? Dan word ik vet." → laat zien hoe snel het intrekt
+- "€49 is veel." → reken per gebruik: een fles gaat ongeveer 3 maanden mee [CHECK]
+
+**Claims**
+- Kan: "voor een zachte, verzorgde huid"
+- Kan niet: "anti-aging", "geneest", "100% chemicaliënvrij"
+
+Open vragen: welke certificaten zijn er precies?`,
+ scout:`**Klantsegmenten**
+- Bewuste kopers (25 tot 45): kiezen op ingrediënten, volgen #cleanbeauty
+- Cadeaukopers: zoeken een mooi verpakt product van €30 tot €50
+- Spa-bezoekers: willen thuis dezelfde ervaring
+
+**Waar vind je retailers?**
+- Google: "conceptstore" + "natuurlijke cosmetica" + stad
+- Instagram: #conceptstore, #duurzamewinkel, #zerowastewinkel
+- Faire en Ankorstore: filter op categorie Beauty en land NL, BE, DE
+- Beurzen: exposantenlijsten van beauty- en lifestylebeurzen [CHECK]
+
+**Signalen van een goede match**
+- Verkoopt al 2 of meer vegan merken
+- Heeft een webshop én een fysieke winkel
+
+**Beslissers**
+- Eigenaar, inkoper, buyer beauty
+
+Open vragen: willen jullie ook creators benaderen?`,
+ promoter:`**Campagne-opzet**
+- Doel: verkopen (conversies)
+- Structuur: 1 campagne, 3 advertentiesets
+
+**Doelgroepen**
+- Breed: vrouwen 25 tot 45, NL en BE
+- Interesses: natuurlijke huidverzorging, vegan beauty
+- Retargeting: websitebezoekers van de afgelopen 30 dagen
+
+**Advertentievarianten**
+- A: "Je huid verdient eenvoud." · Kop: Navulbaar serum · Knop: Shop nu
+- B: "Eén fles. Drie maanden verzorging." · Kop: Bestseller uit NL · Knop: Meer info
+
+**Creatieve briefing**
+- 9:16-video: hand vult de glazen fles, hook binnen 2 seconden
+
+**Budget en test**
+- Verdeling 60/40 over breed en retargeting; bedrag [CHECK]
+- Test eerst de hook, daarna het aanbod
+
+Open vragen: wat is het maandbudget?`,
+ herald:`**TikTok-script 1 (25 sec): "Navullen in 10 seconden"**
+- Hook (0-2s): "Ik gooi nooit meer een serumfles weg."
+- Shots: lege fles → navulzakje → vullen → op de huid
+- Tekst in beeld: "navulbaar · vegan · gemaakt in NL"
+- Caption: Zo simpel is het. #skincare #navulbaar #ad
+
+**Instagram-carrousel: "Zo gebruik je gezichtsolie"**
+1. Gezichtsolie? Ja, ook bij een gemengde huid.
+2. Stap 1: reinig je huid.
+3. Stap 2: 3 druppels in je handpalm.
+4. Stap 3: zacht indrukken, niet wrijven.
+5. Klaar. Shop via de link in bio.
+
+Open vragen: is er al bestaand videomateriaal?`,
+ builder:`**Landingspagina: navulbaar serum**
+
+**Kop:** Natuurlijke verzorging, zonder weggooifles.
+**Subkop:** Vegan gezichtsolie, gemaakt in Nederland. Eén keer kopen, daarna navullen.
+
+**Voordelen**
+- Trekt snel in, geen vettig gevoel
+- Navulbaar glas, minder afval
+- Gemaakt in Nederland
+
+**Bewijs:** [CHECK: echte reviews of verkooppunten toevoegen]
+
+**FAQ**
+- Is het geschikt voor een gevoelige huid? [CHECK]
+- Hoe lang doe ik met een fles? Ongeveer 3 maanden [CHECK]
+
+**Call-to-action:** Shop de bestsellers
+
+SEO-titel: Navulbaar vegan gezichtsserum | Lumière Botanicals`,
+ messenger:`**Outreach-reeks voor conceptstores**
+
+**Mail 1 (dag 0)**
+Onderwerp: Navulbare huidverzorging voor [winkelnaam]?
+Hoi [voornaam],
+Ik zag dat jullie [haakje: merk of product uit hun winkel] verkopen. Wij maken vegan gezichtsoliën in navulbaar glas, nu een bestseller in Benelux-conceptstores. Zal ik een gratis samplebox sturen?
+Groet, Sophie
+
+**Mail 2 (dag 3)**
+Onderwerp: Wat klanten vragen
+Korte tip: klanten vragen vooral naar navulbare opties. Wij leveren vanaf €300, met 45 tot 50% marge.
+
+Afmelden? Antwoord met "stop".`,
+ guardian:`**Oordeel: AANPASSEN**
+
+**1. Promoter, variant B**
+- Fragment: "Drie maanden verzorging"
+- Probleem: duur niet onderbouwd
+- Risico: midden
+- Herschrijf: "Met één fles doe je lang"
+
+**2. Herald, TikTok-script**
+- Fragment: #ad staat aan het eind
+- Probleem: markering moet direct zichtbaar zijn
+- Risico: laag
+- Herschrijf: zet "Advertentie" in beeld in de eerste seconde
+
+**3. Builder, FAQ**
+- Fragment: "geschikt voor een gevoelige huid"
+- Probleem: claim zonder onderbouwing
+- Risico: hoog
+- Herschrijf: weglaten tot er een test is
+
+Laat checken: de veiligheidsbeoordeling van het product.`,
+ analyst:`**Meetplan voor deze missie**
+
+**KPI's**
+- ROAS = omzet / advertentie-uitgaven · doel [CHECK]
+- CPA = uitgaven / orders · doel [CHECK]
+- Conversie = orders / sessies
+- AOV = omzet / orders
+
+**Meten**
+- Meta Pixel en Conversions API aan
+- UTM-tags per advertentievariant
+
+**Beslisregels na 7 dagen**
+- CTR onder 1%: nieuwe hook testen
+- Retargeting met ROAS onder doel: budget naar breed verplaatsen
+
+Geen cijfers ontvangen, dus nog geen analyse. Deel na een week de cijfers voor een rapport.`,
+ navigator:``
+};
+const byId = id => AG.find(a=>a.id===id);
+const NAV = AG[0], WORKERS = AG.slice(1);
+const STATE_LABEL = {idle:'Beschikbaar', waiting:'Wacht', thinking:'Plant', working:'Bezig', done:'Klaar', error:'Gestopt'};
+
+const QUICK = [
+  ['navigator','Product lanceren','Lanceer ons nieuwe product: van onderzoek tot advertenties'],
+  ['analyst','Meer verkopen','Ik wil meer verkopen met mijn nieuwe huidverzorgingslijn'],
+  ['scout','Klanten vinden','Vind conceptstores en webshops die ons product kunnen verkopen en schrijf een outreachmail'],
+  ['promoter','Campagne maken','Maak een Meta Ads-campagne voor onze Black Friday-actie'],
+  ['herald','Social content','Schrijf 3 TikTok-scripts en een Instagram-carrousel voor onze bestseller'],
+  ['builder','Conversie verbeteren','Bouw een landingspagina die beter converteert voor onze bestseller'],
+  ['messenger','E-mailflow','Schrijf een e-mailflow voor verlaten winkelwagens'],
+  ['guardian','Claims checken','Check deze advertentietekst: "Verwijdert rimpels in 7 dagen, 100% natuurlijk"']
+];
+const BRAND_FIELDS = [
+  ['merk','Merk','Lumière Botanicals (voorbeeldmerk)'],
+  ['product','Product en prijs','Vegan gezichtsoliën en serums, gemaakt in Nederland, €29 tot €49'],
+  ['doelgroep','Doelgroep','Vrouwen van 25 tot 45 die bewust kiezen voor natuurlijke huidverzorging'],
+  ['b2b','B2B-klanten','Conceptstores, natuurwinkels, spa’s en online beautyshops in NL, BE en DE'],
+  ['usp','USP’s','Navulbare glazen verpakking; bestseller in Benelux-conceptstores'],
+  ['tone','Tone of voice','Warm, eerlijk, geen overdreven beloftes'],
+  ['verboden','Claims die niet mogen','geneest, anti-aging garantie, 100% chemicaliënvrij'],
+  ['cta','Call-to-action','Shop de bestsellers / vraag een gratis samplebox aan']
+];
+const HOW = [
+  {n:1,c:'#8a5cf7',t:'Kies je doel',p:'Vertel wat je wilt bereiken: meer verkopen, een lancering of nieuwe klanten.',img:'bubble',q:'“Ik wil meer verkopen met mijn supplement.”'},
+  {n:2,c:'#3b82f6',t:'Navigator maakt het plan',p:'Navigator bepaalt welke agents nodig zijn en in welke volgorde.',img:'navigator'},
+  {n:3,c:'#14a3c7',t:'Agents voeren het werk uit',p:'De gekozen agents werken samen en maken alle benodigde assets.',img:'cluster'},
+  {n:4,c:'#2563eb',t:'Guardian controleert',p:'Voor publicatie checkt Guardian teksten en advertenties op claims en regels.',img:'guardian'},
+  {n:5,c:'#a855f7',t:'Analyst leert en optimaliseert',p:'Analyst zet de cijfers om in een rapport en concrete verbeteringen.',img:'analyst'}
+];
+
+/* ================= Persistence (per viewer) ================= */
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+let brand = store.get('eag-brand',{});
+BRAND_FIELDS.forEach(([k,,d])=>{ if(brand[k]===undefined) brand[k]=d; });
+let tasks = store.get('eag-tasks',[]).filter(t=>t && Array.isArray(t.steps));
+tasks.forEach(t=>{ if(t.status==='run'||t.status==='queue'){ t.status='fail'; t.note='Onderbroken (pagina herladen)'; } t.open=false; t.steps.forEach(s=>{ if(!s.stage) s.stage=1; }); });
+let logLines = store.get('eag-log',[]);
+const saveTasks = ()=> store.set('eag-tasks', tasks.slice(0,30).map(({ctl,...t})=>t));
+const brandText = ()=> 'BRAND BRIEF\n'+BRAND_FIELDS.map(([k,l])=>`${l}: ${brand[k]||'[onbekend]'}`).join('\n');
+
+const S = {}; AG.forEach(a=> S[a.id]={st:'idle', task:null, started:0, words:0, done:0});
+tasks.forEach(t=>t.steps.forEach(s=>{ if(s.out && t.status==='done' && S[s.agent]) S[s.agent].done++; }));
+
+/* ================= Helpers ================= */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const md = s => esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/^#{1,4}\s*(.+)$/gm,'<strong>$1</strong>');
+const words = s => (s.trim().match(/\S+/g)||[]).length;
+const hhmm = d => `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+const arrowSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const vars = a => `--c:${a.c};--tint:${a.tint};--btn:${a.btn}`;
+const pill = st => `<span class="st ${st}"><i></i>${STATE_LABEL[st]||st}</span>`;
+function statusText(a){
+  const s=S[a.id];
+  if(s.st==='working'){ const sec=Math.round((Date.now()-s.started)/1000); return `Schrijft · ${sec}s${s.words?` · ${s.words} woorden`:''}`; }
+  if(s.st==='thinking') return 'Plant de workflow';
+  return STATE_LABEL[s.st];
+}
+
+/* ================= Views ================= */
+const VIEWS = {
+  dashboard:['Dashboard','Geef een doel, geen prompt. Navigator stelt het team samen.'],
+  agents:['AI Agents','Jouw complete e-commerce AI-team. Open een agent of laat Navigator automatisch de beste workflow samenstellen.'],
+  results:['Resultaten','Alles wat de agents voor je hebben gemaakt.'],
+  brand:['Brand Memory','Eén centraal geheugen voor je merk. Alle agents lezen hieruit, zodat niemand opnieuw vraagt wie je doelgroep is.'],
+  activity:['Activiteit','Wat het team heeft gedaan, nieuwste eerst.'],
+  how:['Hoe werkt Ecom Agent Garden?','Een compleet AI-team dat samenwerkt om jouw product te laten groeien. Leer het door het te doen.']
+};
+let view = store.get('eag-view','dashboard'); if(!VIEWS[view]) view='dashboard';
+function go(v){
+  view=v; store.set('eag-view',v);
+  document.querySelectorAll('.vw').forEach(s=>s.hidden=s.dataset.v!==v);
+  document.querySelectorAll('#nav [data-view]').forEach(b=>{ if(b.dataset.view===v) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+  $('pageTitle').textContent=VIEWS[v][0]; $('pageSub').textContent=VIEWS[v][1];
+  if(v==='results') renderTasks();
+  if(v==='how') renderChecklist();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('#nav [data-view]').forEach(b=>b.onclick=()=>go(b.dataset.view));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+$('goNav').onclick=()=>{ $('taskInput').focus(); window.scrollTo({top:0,behavior:'smooth'}); };
+$('search').addEventListener('input',e=>{ if(view!=='agents') go('agents'); renderBig(e.target.value); });
+
+/* ================= Render ================= */
+function renderHow(el){
+  el.innerHTML = HOW.map(h=>`<div class="hs"><div class="h"><span class="n" style="background:${h.c}">${h.n}</span><b>${h.t}</b></div><p>${h.p}</p>${ico(h.img,112)}${h.q?`<div class="quote">${h.q}</div>`:''}</div>`).join('');
+}
+function renderDashAgents(){
+  const run=currentTask();
+  $('dashAgents').innerHTML = AG.map(a=>{
+    const step=run?.steps.find(s=>s.agent===a.id); const st=S[a.id].st;
+    const active = run ? (a===NAV || !!step) : false;
+    return `<div class="ac${run&&!active?' dim':''}${active&&st!=='idle'?' on':''}" style="${vars(a)}">
+      ${step?`<span class="badge">${step.stage}</span>`:''}
+      ${ico(a.id,96)}
+      ${st!=='idle'?`<span class="stp">${pill(st)}</span>`:''}<div class="nm">${a.name}${a===NAV?'<span class="orch">★ Orchestrator</span>':''}</div>
+      <div class="ds">${esc(a.does)}</div>
+      <button type="button" class="how-btn" data-info="${a.id}" aria-expanded="${openInfo.has(a.id)}">${infoSvg} Hoe werkt dit?</button>
+      ${openInfo.has(a.id)?`<div class="howbox">${howBox(a)}</div>`:''}
+      <button type="button" class="open" data-open="${a.id}">Open ${a.name} ${arrowSvg}</button></div>`;
+  }).join('');
+  $('dashAgents').querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openAgent(b.dataset.open));
+  $('dashAgents').querySelectorAll('[data-info]').forEach(b=>b.onclick=()=>{ toggleInfo(b.dataset.info); renderDashAgents(); });
+}
+function renderBig(q=''){
+  const ql=q.trim().toLowerCase();
+  const list=AG.filter(a=>!ql || (a.name+' '+a.role+' '+a.does).toLowerCase().includes(ql));
+  $('noMatch').hidden=!!list.length;
+  $('bigAgents').innerHTML = list.map(a=>`<div class="bc" style="${vars(a)}">
+    ${a===NAV?'<span class="orch">★ Orchestrator</span>':''}
+    <div class="hd">${ico(a.id,150)}<div class="nm">${a.name}${S[a.id].st!=='idle'?pill(S[a.id].st):''}</div></div>
+    <div class="ds">${esc(a.does)}</div>
+    <button type="button" class="how-btn" data-info="${a.id}" aria-expanded="${openInfo.has(a.id)}">${infoSvg} Hoe werkt dit?</button>
+    ${openInfo.has(a.id)?`<div class="howbox">${howBox(a)}</div>`:''}
+    <button type="button" class="open" data-open="${a.id}">Open ${a.name} ${arrowSvg}</button></div>`).join('');
+  $('bigAgents').querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openAgent(b.dataset.open));
+  $('bigAgents').querySelectorAll('[data-info]').forEach(b=>b.onclick=()=>{ toggleInfo(b.dataset.info); renderBig($('search').value); });
+}
+
+let viewTaskId = null;
+function currentTask(){ return tasks.find(t=>t.status==='run') || null; }
+function shownTask(){ return currentTask() || tasks.find(t=>t.id===viewTaskId) || null; }
+const stages = t => [...new Set(t.steps.map(s=>s.stage))].sort((a,b)=>a-b);
+function stepLabel(s){ return s.st==='working'?'Bezig':s.st==='done'?'Klaar':s.st==='error'?'Gestopt':'Wacht'; }
+function renderWorkflow(){
+  const t=shownTask(), panel=$('wfPanel');
+  if(!t){ panel.hidden=true; return; }
+  panel.hidden=false;
+  $('wfTitle').textContent=(t.forced?'Taak: ':'Missie: ')+t.title;
+  $('wfSub').textContent=t.forced?`Direct aan ${byId(t.forced).name}`:`${t.steps.length} stappen · samengesteld door Navigator`;
+  const navPlanning = t.status==='run' && S.navigator.st==='thinking';
+  const pst = t.status==='run' ? (navPlanning?'thinking':'working') : t.status==='done'?'done':'error';
+  const pl=$('wfPill'); pl.className='st '+pst; pl.lastElementChild.textContent = t.status==='run' ? (navPlanning?'Navigator plant':'Bezig') : t.status==='done'?'Voltooid':(t.note||'Gestopt');
+  $('stopBtn').hidden = t.status!=='run'; $('stopBtn').onclick=()=>stopTask(t.id);
+  const total=t.steps.length||1, doneN=t.steps.filter(s=>s.st==='done').length, pct=navPlanning?0:Math.round(100*doneN/total);
+  $('misBar').style.width=pct+'%'; $('misPct').textContent=pct+'%'; $('misSteps').textContent= navPlanning?'Navigator stelt het team samen…':`${doneN} van ${t.steps.length} stappen klaar`;
+  let html = t.forced ? '' : fsTile('navigator', navPlanning?'thinking':'done', navPlanning?'Plant':'Gepland');
+  stages(t).forEach(sg=>{
+    const group=t.steps.filter(s=>s.stage===sg);
+    const inner=group.map(s=>fsTile(s.agent, s.st||'waiting', stepLabel(s))).join('');
+    html += `${html?`<span class="arrow">${arrowSvg}</span>`:''}${group.length>1?`<div class="grp">${inner}</div>`:inner}`;
+  });
+  $('flow').innerHTML=html;
+  const nx=$('nextStep');
+  const nextS=t.steps.find(s=>s.st==='working') || t.steps.find(s=>!s.st || s.st==='waiting');
+  if(t.status==='run' && !navPlanning && nextS){ nx.hidden=false; nx.innerHTML=`${ico(nextS.agent,32)}<span>${nextS.st==='working'?'Nu bezig':'Volgende stap'}: <b>${byId(nextS.agent).name}</b> · ${esc(nextS.task)}</span>`; }
+  else if(t.status==='done'){ nx.hidden=false; nx.innerHTML=`${ico('analyst',32)}<span><b>Missie voltooid.</b> Bekijk alle resultaten of geef het team een nieuw doel.</span>`; }
+  else nx.hidden=true;
+  const s = t.steps.find(x=>x.st==='working') || [...t.steps].reverse().find(x=>x.out);
+  if(s && s.out){
+    const a=byId(s.agent); $('live').hidden=false;
+    $('liveWho').innerHTML=`<b>${a.name}</b> · ${esc(s.task)}${s.offline?' · demo':''}`;
+    const body=$('liveBody'); const atEnd=body.scrollHeight-body.scrollTop-body.clientHeight<30;
+    body.innerHTML=md(s.out); if(s.st==='working'&&atEnd) body.scrollTop=body.scrollHeight;
+    $('liveOpen').onclick=()=>{ go('results'); openTask(t.id); };
+  } else $('live').hidden=true;
+}
+function fsTile(id, st, label){ const a=byId(id); return `<div class="fs ${st}" style="${vars(a)}">${ico(id,58)}<b>${a.name}</b>${pill(st==='thinking'?'thinking':st)}</div>`.replace(`>${STATE_LABEL[st]}<`,`>${label}<`); }
+
+function toggleInfo(id){ openInfo.has(id)?openInfo.delete(id):openInfo.add(id); }
+function renderMap(){
+  const M=[['bubble','Jouw doel'],['navigator','Navigator'],['cluster','Agent-workflow'],['guardian','Guardian-check'],[null,'Publiceren'],['analyst','Analyst'],['promoter','Optimaliseren']];
+  $('mentalMap').innerHTML=M.map(([i,l],k)=>`${k?'<span class="ar">'+arrowSvg+'</span>':''}<span class="m">${i?ico(i,24):'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6a3cf0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>'}${l}</span>`).join('');
+}
+function renderChecklist(){
+  const brandEdited = BRAND_FIELDS.some(([k,,d])=>brand[k]!==d);
+  const started = tasks.length>0, finished = tasks.some(t=>t.status==='done');
+  const items=[
+    [brandEdited,'Vul je Brand Memory in','Vervang het voorbeeldmerk door je eigen product, doelgroep en claims.','brand','Open'],
+    [started,'Start je eerste missie','Geef Navigator een doel en kijk hoe het team samenwerkt.','try','Probeer'],
+    [finished,'Bekijk je resultaten','Kopieer wat je nodig hebt; Guardian heeft het al gecheckt.','results','Bekijk']
+  ];
+  $('checklist').innerHTML=items.map(([d,t,p,g,l])=>`<div class="ck${d?' done':''}"><span class="bx">${d?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':''}</span><div><b>${t}</b><span>${p}</span></div>${d?'':`<button type="button" class="btn" data-ck="${g}">${l}</button>`}</div>`).join('') + `<p class="empty" style="font-size:13px">${[brandEdited,started,finished].filter(Boolean).length} van 3 gedaan</p>`;
+  $('checklist').querySelectorAll('[data-ck]').forEach(b=>b.onclick=()=>{ if(b.dataset.ck==='try') $('tryInput').focus(); else go(b.dataset.ck); });
+}
+/* drawer */
+let openId=null;
+function openAgent(id){ openId=id; renderDrawer(); $('scrim').hidden=false; $('drawer').hidden=false; $('drawer').querySelector('.x')?.focus(); }
+function closeAgent(){ openId=null; $('scrim').hidden=true; $('drawer').hidden=true; }
+$('scrim').onclick=closeAgent;
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && openId) closeAgent(); });
+function lastOutput(id){ for(const t of tasks){ for(const s of t.steps){ if(s.agent===id && s.out) return {out:s.out, task:t}; } } return null; }
+function renderDrawer(){
+  if(!openId) return;
+  const a=byId(openId), s=S[a.id], last=lastOutput(a.id), d=$('drawer');
+  d.style.cssText=vars(a);
+  d.innerHTML=`<div class="dr-hd">${ico(a.id,120)}<div><h3>${a.name}</h3><p>${a.role}</p>${pill(s.st)}${a===NAV?' <span class="orch">★ Orchestrator</span>':''}</div><button type="button" class="x" aria-label="Sluiten">×</button></div>
+    <p>${esc(a.about)}</p>
+    <div><div class="lbl">Huidige taak</div><div class="box" id="drTask">${taskBox(a)}</div></div>
+    <div><div class="lbl">Hoe werkt ${a.name}?</div><div class="howbox" style="margin:0;background:var(--tint)">${howBox(a)}</div></div>
+    <div><div class="lbl">Levert</div><ul>${a.gives.map(g=>`<li>${esc(g)}</li>`).join('')}</ul></div>
+    ${a===NAV?`<div><div class="lbl">Opdracht geven</div><p style="color:var(--muted)">Gebruik "Wat wil je bereiken?" op het dashboard. Navigator stelt bij elk doel het team samen.</p><button type="button" class="btn-primary" id="drGo" style="margin-top:10px">Naar het dashboard ${arrowSvg}</button></div>`:
+    `<div><div class="lbl">Direct een opdracht geven</div><form class="assign" id="assignForm"><input id="assignInput" autocomplete="off" placeholder="${esc(a.ex[0])}" aria-label="Opdracht voor ${esc(a.name)}"><button type="submit" class="btn-primary" style="padding:10px 18px">Start</button></form></div>`}
+    <div><div class="lbl">Voorbeelden</div><div class="chips">${a.ex.map(e=>`<button type="button" class="chip" data-ex="${esc(e)}">${esc(e)}</button>`).join('')}</div></div>
+    <div><div class="lbl">Afgerond</div><p>${s.done} ${s.done===1?'taak':'taken'}</p></div>
+    ${last?`<div><div class="lbl">Laatste resultaat</div><div class="box out">${md(last.out.slice(0,800))}${last.out.length>800?'…':''}</div><button type="button" class="btn" id="drRes" style="margin-top:10px">Bekijk resultaten</button></div>`:''}`;
+  d.querySelector('.x').onclick=closeAgent;
+  d.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{ const inp=$('assignInput'); if(inp){ inp.value=b.dataset.ex; inp.focus(); } else { closeAgent(); go('dashboard'); $('taskInput').value=b.dataset.ex; $('taskInput').focus(); } });
+  const f=$('assignForm'); if(f) f.onsubmit=e=>{ e.preventDefault(); const v=$('assignInput').value.trim(); if(!v) return; closeAgent(); newTask(v,a.id); go('dashboard'); };
+  const g=$('drGo'); if(g) g.onclick=()=>{ closeAgent(); go('dashboard'); $('taskInput').focus(); };
+  const r=$('drRes'); if(r) r.onclick=()=>{ closeAgent(); go('results'); openTask(last.task.id); };
+}
+function taskBox(a){ const s=S[a.id]; return s.task?esc(s.task)+`<br><span style="color:var(--muted);font-size:13px">${esc(statusText(a))}</span>`:'<span style="color:var(--muted)">Geen actieve taak</span>'; }
+
+function renderTasks(){
+  const done=tasks.filter(t=>t.status==='done').length; const n=$('resCount'); n.hidden=!done; n.textContent=done;
+  const p=$('taskList'); if(view!=='results' && p.childElementCount) return;
+  if(!tasks.length){ p.innerHTML=`<p class="empty"><b>Nog geen resultaten.</b> Geef op het dashboard een doel aan Navigator, of open een agent en geef hem direct een opdracht.</p>`; return; }
+  p.innerHTML = tasks.map(t=>{
+    const route=(t.forced?[]:['Navigator']).concat(stages(t).map(sg=>t.steps.filter(s=>s.stage===sg).map(s=>byId(s.agent)?.name||s.agent).join(' + '))).join(' → ');
+    const pst=t.status==='run'?'working':t.status==='done'?'done':t.status==='queue'?'waiting':'error';
+    const plabel=t.status==='run'?'Bezig':t.status==='done'?'Voltooid':t.status==='queue'?'In de wachtrij':(t.note||'Gestopt');
+    const outs=t.steps.filter(s=>s.out && byId(s.agent)).map(s=>{ const a=byId(s.agent), i=t.steps.indexOf(s); return `<div class="res"><div class="who">${ico(a.id,30)}${a.name} <small>· ${esc(s.task)}</small></div>${s.offline?'<div class="note">Demo: voorbeeldresultaat voor het demomerk. In Claude schrijft deze agent live op jouw opdracht.</div>':''}<div class="txt">${md(s.out)}</div><div class="acts"><button type="button" class="btn" data-copy="${t.id}:${i}">Kopieer</button>${s.offline&&s.prompt?`<button type="button" class="btn" data-copyp="${t.id}:${i}">Kopieer prompt</button>`:''}</div></div>`; }).join('');
+    return `<article class="task" data-t="${t.id}"><div class="t">${esc(t.title)}</div>
+      <div class="m"><span class="st ${pst}"><i></i>${esc(plabel)}</span><span>${esc(route)}</span><span>· ${hhmm(new Date(t.created))}</span></div>
+      ${outs?`<details data-d="${t.id}"${t.open?' open':''}><summary>${t.status==='done'?'Bekijk resultaten':'Gedeeltelijke resultaten'}</summary>${outs}</details>`:''}
+      <div class="acts">${t.status==='run'||t.status==='queue'?`<button type="button" class="btn" data-stop="${t.id}">Stop</button>`:`<button type="button" class="btn" data-show="${t.id}">Toon op dashboard</button><button type="button" class="btn" data-del="${t.id}">Verwijder</button>`}</div></article>`;
+  }).join('');
+  p.querySelectorAll('details').forEach(d=>d.ontoggle=()=>{ const t=tasks.find(x=>x.id===d.dataset.d); if(t) t.open=d.open; });
+  p.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{ const [tid,i]=b.dataset.copy.split(':'); copy(tasks.find(x=>x.id===tid).steps[+i].out,b); });
+  p.querySelectorAll('[data-copyp]').forEach(b=>b.onclick=()=>{ const [tid,i]=b.dataset.copyp.split(':'); copy(tasks.find(x=>x.id===tid).steps[+i].prompt,b); });
+  p.querySelectorAll('[data-stop]').forEach(b=>b.onclick=()=>stopTask(b.dataset.stop));
+  p.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{ tasks=tasks.filter(x=>x.id!==b.dataset.del); if(viewTaskId===b.dataset.del) viewTaskId=null; saveTasks(); renderTasks(); renderWorkflow(); });
+  p.querySelectorAll('[data-show]').forEach(b=>b.onclick=()=>{ viewTaskId=b.dataset.show; go('dashboard'); renderWorkflow(); });
+}
+function openTask(id){ const t=tasks.find(x=>x.id===id); if(!t) return; t.open=true; renderTasks(); setTimeout(()=>document.querySelector(`[data-t="${id}"]`)?.scrollIntoView({behavior:'smooth',block:'start'}),50); }
+function copy(txt,btn){
+  const ok=()=>{ const o=btn.textContent; btn.textContent='Gekopieerd'; setTimeout(()=>btn.textContent=o,1400); };
+  const fallback=()=>{ const el=btn.closest('.res')?.querySelector('.txt'); if(!el) return; const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent='Geselecteerd · druk Ctrl+C'; };
+  try{ navigator.clipboard.writeText(txt).then(ok,fallback); }catch(e){ fallback(); }
+}
+function renderBrand(){
+  const f=$('brandForm');
+  f.innerHTML = BRAND_FIELDS.map(([k,l])=>`<label for="bf-${k}">${l}${['product','doelgroep','b2b','usp'].includes(k)?`<textarea id="bf-${k}" name="${k}" rows="2">${esc(brand[k])}</textarea>`:`<input id="bf-${k}" name="${k}" value="${esc(brand[k])}">`}</label>`).join('') + `<p class="empty" style="grid-column:1/-1;font-size:13px">De ingevulde waarden zijn een voorbeeldmerk. Wijzigingen worden direct bewaard, alleen in deze browser.</p>`;
+  f.addEventListener('input',e=>{ brand[e.target.name]=e.target.value; store.set('eag-brand',brand); });
+  f.addEventListener('submit',e=>e.preventDefault());
+}
+function log(txt){ logLines.push({t:Date.now(),x:txt}); logLines=logLines.slice(-80); store.set('eag-log',logLines); renderLog(); }
+function renderLog(){ $('log').innerHTML = logLines.length ? logLines.slice().reverse().map(l=>`<div><time>${hhmm(new Date(l.t))}</time><span>${esc(l.x)}</span></div>`).join('') : '<p class="empty">Nog geen activiteit.</p>'; }
+
+let toastTimer;
+function toast(t){
+  const last=[...t.steps].reverse().find(s=>s.out && byId(s.agent)?.quip);
+  $('toastTitle').textContent = `Missie voltooid · ${t.title}`;
+  $('toastQuip').textContent = last ? byId(last.agent).quip : '';
+  $('toast').hidden=false;
+  $('toastView').onclick=()=>{ go('results'); openTask(t.id); $('toast').hidden=true; };
+  $('toastClose').onclick=()=>$('toast').hidden=true;
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('toast').hidden=true,9000);
+}
+
+/* ================= Orchestration ================= */
+let samplePromise = (window.claude && claude.use) ? claude.use('sample').catch(()=>null) : Promise.resolve(null);
+let sampleOK = true;
+const PERMANENT=['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'];
+function setSys(){
+  $('sysDot').className='dot '+(sampleOK?'ok':'warn');
+  $('sysTitle').textContent = sampleOK ? 'Alle agents online' : 'Demo-modus';
+  $('sysText').textContent = sampleOK ? 'De agents schrijven live met Claude. Elke run gebruikt je eigen Claude-tegoed.' : 'Claude is hier niet beschikbaar. De agents laten voorbeeldresultaten zien voor het demomerk. Open de app in Claude voor live resultaten.';
+}
+function normalise(steps){
+  const seen=new Set(), out=[];
+  steps.forEach(s=>{ if(!s || !WORKERS.some(a=>a.id===s.agent) || seen.has(s.agent)) return; seen.add(s.agent); out.push({agent:s.agent, task:String(s.task||'').slice(0,140), stage:Number(s.stage)||null}); });
+  if(out.length && out.every(s=>s.stage)){ const order=[...new Set(out.map(s=>s.stage))].sort((a,b)=>a-b); out.forEach(s=>s.stage=order.indexOf(s.stage)+1); out.sort((a,b)=>a.stage-b.stage); }
+  else { let st=0; out.forEach((s,i)=>{ const prev=out[i-1]; const pair=prev && ['promoter','herald'].includes(s.agent) && ['promoter','herald'].includes(prev.agent); s.stage = pair ? st : ++st; }); }
+  const g=out.find(s=>s.agent==='guardian'), maxCreate=Math.max(0,...out.filter(s=>['messenger','herald','builder','promoter'].includes(s.agent)).map(s=>s.stage));
+  if(!g && maxCreate){ out.forEach(s=>{ if(s.stage>maxCreate) s.stage++; }); out.push({agent:'guardian', task:'Check alle teksten op claims en regels', stage:maxCreate+1}); out.sort((a,b)=>a.stage-b.stage); }
+  return out.slice(0,7);
+}
+function keywordPlan(text){
+  const s=' '+text.toLowerCase()+' ', steps=[], has=(...w)=>w.some(x=>s.includes(x));
+  const growth = has('meer verkopen','meer omzet','groei','verkoop','lancer','launch','sell more','sales');
+  if(growth || has('onderzoek','markt','concurrent','research','waarom','usp')) steps.push({agent:'researcher',task:'Markt, doelgroep en USP’s op een rij'});
+  if(growth || has('lead','prospect','winkel','webshop','retailer','groothandel','creator','influencer','vind ')) steps.push({agent:'scout',task:'Doelgroepen en prospects in kaart brengen'});
+  if(growth || has(' ads','meta','facebook','advertentie','campagne','campaign','retargeting')) steps.push({agent:'promoter',task:'Meta Ads-campagne opzetten'});
+  if(growth || has('tiktok','reel','instagram','social','post','carrousel','content','linkedin')) steps.push({agent:'herald',task:'Social content maken'});
+  if(has('mail','e-mail','email','outreach','flow','nieuwsbrief')) steps.push({agent:'messenger',task:'E-mails schrijven'});
+  if(growth || has('landing','pagina','productpagina','one-pager','line sheet','website','bouw','conver')) steps.push({agent:'builder',task:'Landingspagina of sales asset bouwen'});
+  if(has('check','claim','compliance','mag ik','regels')) steps.push({agent:'guardian',task:'Claims en regels controleren'});
+  if(growth || has('analyse','cijfers','kpi','roas','rapport','data')) steps.push({agent:'analyst',task: growth?'Meetplan en KPI’s opstellen':'Cijfers analyseren'});
+  if(!steps.length) steps.push({agent:'researcher',task:'Opdracht uitwerken'});
+  const an=steps.findIndex(x=>x.agent==='analyst');
+  let norm=normalise(steps.filter(x=>x.agent!=='analyst'));
+  if(an>=0){ const last=Math.max(0,...norm.map(x=>x.stage)); norm.push({agent:'analyst',task:steps[an].task,stage:last+1}); }
+  return {title:text.slice(0,90), steps:norm.slice(0,7)};
+}
+async function planRoute(text){
+  const sample=await samplePromise;
+  if(sample && sampleOK){
+    const prompt=`You are the Navigator (orchestrator) of an e-commerce brand's AI team. Build the route for the user's goal.
+Agents (id: role):
+${WORKERS.map(a=>`- ${a.id}: ${a.role} — ${a.does}`).join('\n')}
+Rules:
+- Choose only the agents the goal needs, max 7 steps. A broad growth goal ("I want to sell more") typically uses: researcher → scout → promoter + herald (same stage) → builder → guardian → analyst. A launch typically uses researcher → scout → builder → herald + promoter → guardian → analyst.
+- "stage" is the order number; agents with the same stage work at the same time (only when they do not need each other's output).
+- herald = organic social (Instagram, TikTok, LinkedIn, X); promoter = paid Meta Ads.
+- Put guardian after every step that creates text that will be published or sent (email, posts, ads, pages), and analyst last if used.
+- Each step gets a short concrete task (max 14 words). Give a short mission title (max 8 words). Write title and tasks in the language of the goal.
+Reply with only JSON: {"title":"...","steps":[{"agent":"researcher","task":"...","stage":1}]}
+
+Brand: ${brand.merk} — ${brand.product}
+Goal: ${text}`;
+    try{
+      const r=await sample.json(prompt,{modelTier:'quick'});
+      const steps=normalise(r&&Array.isArray(r.steps)?r.steps:[]);
+      if(steps.length) return {title:String(r.title||text).slice(0,90), steps};
+    }catch(e){ if(PERMANENT.includes(e.code)){ sampleOK=false; setSys(); log('Claude is niet beschikbaar op deze pagina; demo-modus aan.'); } }
+  }
+  return keywordPlan(text);
+}
+function agentPrompt(a,t,i){
+  const me=t.steps[i];
+  const prev=t.steps.filter(s=>s.stage<me.stage && s.out).map(s=>`### Output from ${byId(s.agent).name}\n${s.out.slice(0,5000)}`).join('\n\n');
+  const team=t.steps.filter(s=>s.stage===me.stage && s!==me).map(s=>byId(s.agent).name);
+  return `${RULES}\n\n${brandText()}\n\n${a.brief}\n\nTHE USER'S GOAL: ${t.request}\nYOUR STEP IN THIS WORKFLOW: ${me.task}${team.length?`\n(Working in parallel with: ${team.join(', ')}. Stay in your own lane.)`:''}${prev?`\n\nEARLIER STEPS (build on these):\n${prev}`:''}`;
+}
+
+let running=null;
+function newTask(text,forced){
+  const t={id:'t'+Date.now().toString(36), request:text, title:text.slice(0,90), steps:[], status:'queue', open:false, created:Date.now(), forced:forced||null};
+  if(forced) t.steps=[{agent:forced, task:text, out:'', st:'waiting', stage:1}];
+  tasks.unshift(t); viewTaskId=t.id; saveTasks(); refresh();
+  log(forced?`Nieuwe taak voor ${byId(forced).name}: ${text}`:`Nieuwe missie: ${text}`);
+  pump();
+}
+async function pump(){
+  if(running) return;
+  const t=[...tasks].reverse().find(x=>x.status==='queue'); if(!t) return;
+  running=t; t.status='run'; t.ctl=new AbortController(); viewTaskId=t.id;
+  AG.forEach(a=>{ S[a.id].st='idle'; S[a.id].task=null; });
+  if(!t.forced){
+    S.navigator.st='thinking'; S.navigator.task=t.request; refresh();
+    const plan=await planRoute(t.request);
+    if(t.status!=='run'){ S.navigator.st='idle'; S.navigator.task=null; running=null; refresh(); pump(); return; }
+    t.title=plan.title; t.steps=plan.steps.map(s=>({...s,out:'',st:'waiting'}));
+    log(`Navigator: ${stages(t).map(sg=>t.steps.filter(s=>s.stage===sg).map(s=>byId(s.agent).name).join(' + ')).join(' → ')}`);
+  }
+  S.navigator.st= t.forced ? 'idle' : 'done'; S.navigator.task=null;
+  t.steps.forEach(s=>{ S[s.agent].st='waiting'; });
+  saveTasks(); refresh();
+  for(const sg of stages(t)){
+    if(t.status!=='run') break;
+    const idx=t.steps.map((s,i)=>s.stage===sg?i:-1).filter(i=>i>=0);
+    await Promise.all(idx.map(i=>runStep(t,i)));
+    await new Promise(r=>setTimeout(r,350));
+  }
+  if(t.status==='run'){ t.status='done'; log(`Missie voltooid: ${t.title}`); toast(t); }
+  t.steps.forEach(s=>{ if(s.st==='waiting') s.st='error'; });
+  saveTasks(); running=null; refresh();
+  pump();
+}
+async function playDemo(t,s,st,a,prompt){
+  s.offline=true; s.prompt=prompt;
+  const full = DEMO_OUT[a.id] || 'Voorbeeldresultaat voor deze agent.';
+  const parts = full.split(/(\s+)/); let acc='';
+  const stepN = Math.max(1, Math.ceil(parts.length/24));
+  for(let k=0;k<parts.length;k+=stepN){
+    if(t.status!=='run'){ s.st='error'; st.st='idle'; st.task=null; refresh(); return false; }
+    acc += parts.slice(k,k+stepN).join(''); s.out=acc; st.words=words(acc); throttled();
+    await new Promise(r=>setTimeout(r,70));
+  }
+  s.out=full; return true;
+}
+async function runStep(t,i){
+  const s=t.steps[i], a=byId(s.agent), st=S[a.id];
+  s.st='working'; st.st='working'; st.task=s.task; st.started=Date.now(); st.words=0; refresh();
+  log(`${a.name} gestart: ${s.task}`);
+  const prompt=agentPrompt(a,t,i);
+  const sample=await samplePromise;
+  if(sample && sampleOK){
+    try{
+      await sample(prompt,{signal:t.ctl.signal, cache:false, onText:({text})=>{ s.out=text; st.words=words(text); throttled(); }});
+      s.offline=false;
+    }catch(e){
+      if(e.code==='cancelled'){ s.out=e.text||s.out; s.st='error'; st.st='idle'; st.task=null; refresh(); return; }
+      if(PERMANENT.includes(e.code)){ sampleOK=false; setSys(); log('Claude is niet beschikbaar op deze pagina; demo-modus aan.'); if(!(await playDemo(t,s,st,a,prompt))) return; }
+      else { s.out=(e.text?e.text+'\n\n':'')+`[Onderbroken: ${e.code==='rate_limited'?'even te veel verzoeken, probeer het zo opnieuw':'de dienst gaf een fout'}]`; s.st='error'; st.st='error'; st.task=null; t.status='fail'; t.note='Onderbroken'; t.ctl?.abort(); log(`${a.name} kreeg een fout`); refresh(); return; }
+    }
+  } else { if(!(await playDemo(t,s,st,a,prompt))) return; }
+  s.st='done'; st.st='done'; st.task=null; st.done++;
+  log(`${a.name} klaar${s.offline?' (demo)':''}`);
+  saveTasks(); refresh();
+}
+function stopTask(id){
+  const t=tasks.find(x=>x.id===id); if(!t) return;
+  t.status='fail'; t.note='Gestopt'; t.ctl?.abort();
+  t.steps.forEach(s=>{ if(s.st!=='done') s.st='error'; S[s.agent].st='idle'; S[s.agent].task=null; });
+  S.navigator.st='idle'; S.navigator.task=null;
+  saveTasks(); log(`Gestopt: ${t.title}`); refresh();
+}
+
+let thr=null; function throttled(){ if(thr) return; thr=setTimeout(()=>{ thr=null; refresh(true); },300); }
+function refresh(light){
+  renderWorkflow();
+  if(openId){ const el=$('drTask'); if(el) el.innerHTML=taskBox(byId(openId)); }
+  if(light) return;
+  renderDashAgents(); if(view==='agents') renderBig($('search').value);
+  renderTasks();
+  if(openId) renderDrawer();
+}
+setInterval(()=>{ if(AG.some(a=>S[a.id].st==='working')){ renderWorkflow(); if(openId){ const el=$('drTask'); if(el) el.innerHTML=taskBox(byId(openId)); } } },1000);
+
+/* ================= Boot ================= */
+$('quick').innerHTML = QUICK.map(([id,l,v])=>`<button type="button" data-v="${esc(v)}">${ico(id,26)}${l}</button>`).join('');
+$('quick').querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{ $('taskInput').value=b.dataset.v; $('taskInput').focus(); });
+$('askForm').addEventListener('submit',e=>{ e.preventDefault(); const v=$('taskInput').value.trim(); if(!v){ $('taskInput').focus(); return; } $('taskInput').value=''; newTask(v); });
+renderHow($('howStrip2')); renderMap();
+$('tryQuick').innerHTML = QUICK.slice(0,4).map(([id,l,v])=>`<button type="button" data-v="${esc(v)}">${ico(id,26)}${l}</button>`).join('');
+$('tryQuick').querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{ $('tryInput').value=b.dataset.v; $('tryInput').focus(); });
+$('tryForm').addEventListener('submit',e=>{ e.preventDefault(); const v=$('tryInput').value.trim(); if(!v) return; go('dashboard'); newTask(v); });
+$('brandForm').addEventListener('input',()=>{ if(view==='how') renderChecklist(); });
+renderBrand(); renderLog(); renderBig();
+viewTaskId = tasks[0]?.id || null;
+go(view); refresh();
+samplePromise.then(s=>{ if(!s) sampleOK=false; setSys(); });
+</script>
+</body>
+</html>
