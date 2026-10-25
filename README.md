@@ -4,9 +4,13 @@
 
 **Live demo:** https://sylvievvv.github.io/ecom-agent-garden/
 
-![Dashboard](screenshots/dashboard.webp)
+![A mission running: the Navigator plans, Promoter and Herald work in parallel, Guardian reviews](media/mission.gif)
+
+**Video walkthrough (54 s):** [media/demo.mp4](media/demo.mp4)
 
 > The interface is in Dutch. Outside Claude the app runs in **demo mode** with example output for a fictional brand; inside Claude it runs live.
+
+![Dashboard](screenshots/dashboard.webp)
 
 ## How it works
 
@@ -76,6 +80,7 @@ python3 -m http.server 8000
 index.html          the whole app
 assets/icons/       agent icons (WebP)
 screenshots/        images used in this README
+media/              demo video and GIF
 ```
 
 ## Limitations
