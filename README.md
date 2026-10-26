@@ -2,7 +2,7 @@
 
 **Give it a goal, not a prompt.** Ecom Agent Garden is an AI team of nine agents for e-commerce brands. You describe what you want to achieve, the Navigator assembles a workflow, and the agents research, write, review and measure, in order and partly in parallel.
 
-**Live demo:** https://sylvievvv.github.io/ecom-agent-garden/
+**Live demo:** https://sylvievvv.github.io/ecom-agent/
 
 ![A mission running: the Navigator plans, Promoter and Herald work in parallel, Guardian reviews](media/mission.gif)
 
@@ -68,8 +68,8 @@ Outside Claude (for example on GitHub Pages) that runtime does not exist, so the
 ## Run locally
 
 ```bash
-git clone https://github.com/sylvievvv/ecom-agent-garden.git
-cd ecom-agent-garden
+git clone https://github.com/sylvievvv/ecom-agent.git
+cd ecom-agent
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
